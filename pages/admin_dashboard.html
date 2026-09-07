@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard - Association SADONOU</title>
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:wght@600;700;800&display=swap" rel="stylesheet" />
+    <style>
+        * { font-family: 'Plus Jakarta Sans', sans-serif; }
+        h1, h2, h3, h4 { font-family: 'Fraunces', serif; }
+        
+        :root {
+            --vert: #2d6a4f;
+            --vert-light: #52b788;
+            --bleu: #1d3557;
+            --bleu-light: #457b9d;
+            --jaune: #f4a261;
+            --orange: #e76f51;
+            --gris: #f8f9fa;
+            --gris-border: #e9ecef;
+        }
+
+        body {
+            background: var(--gris);
+            margin: 0;
+            padding: 0;
+        }
+
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .admin-sidebar {
+            background: var(--bleu);
+            width: 260px;
+            padding: 2rem 1.5rem;
+            color: white;
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .admin-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--jaune);
+            font-family: 'Fraunces', serif;
+        }
+
+        .admin-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .admin-nav button {
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: left;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .admin-nav button:hover,
+        .admin-nav button.active {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+        }
+
+        .admin-nav button.active {
+            background: var(--vert);
+            color: var(--jaune);
+        }
+
+        .admin-content {
+            margin-left: 260px;
+            flex: 1;
+            padding: 2rem;
+        }
+
+        .admin-header {
+            background: white;
+            padding: 1.5rem 2rem;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .admin-header h1 {
+            margin: 0;
+            color: var(--bleu);
+            font-size: 1.8rem;
+        }
+
+        .admin-user {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn-logout {
+            background: var(--orange);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-logout:hover {
+            background: #d65a40;
+        }
+
+        .admin-section {
+            display: none;
+        }
+
+        .admin-section.active {
+            display: block;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid var(--vert);
+        }
+
+        .stat-card.blue { border-left-color: var(--bleu); }
+        .stat-card.orange { border-left-color: var(--orange); }
+        .stat-card.light { border-left-color: var(--vert-light); }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--bleu);
+            margin: 0.5rem 0;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #6c757d;
+            font-weight: 500;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .table-header h3 {
+            margin: 0;
+            color: var(--bleu);
+        }
+
+        .btn-add {
+            background: var(--vert);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .btn-add:hover {
+            background: var(--vert-light);
+        }
+
+        .btn-sync {
+            background: var(--bleu-light);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .btn-sync:hover {
+            background: var(--bleu);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table th {
+            background: var(--gris);
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--bleu);
+            border-bottom: 2px solid var(--gris-border);
+        }
+
+        table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--gris-border);
+        }
+
+        table tr:hover {
+            background: var(--gris);
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-edit, .btn-delete {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-edit {
+            background: var(--bleu-light);
+            color: white;
+        }
+
+        .btn-edit:hover {
+            background: var(--bleu);
+        }
+
+        .btn-delete {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #c82333;
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            display: none;
+        }
+
+        .form-container.show {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--bleu);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--gris-border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            box-sizing: border-box;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--bleu);
+            box-shadow: 0 0 0 3px rgba(29, 53, 87, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-submit {
+            background: var(--vert);
+            color: white;
+            padding: 10px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-submit:hover {
+            background: var(--vert-light);
+        }
+
+        .btn-cancel {
+            background: #6c757d;
+            color: white;
+            padding: 10px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-cancel:hover {
+            background: #5a6268;
+        }
+
+        .message {
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .message.show {
+            display: block;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: #6c757d;
+        }
+
+        .empty-state p {
+            font-size: 0.95rem;
+            margin: 0.5rem 0;
+        }
+
+        .badge-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 10px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-active {
+            background: #d8f3dc;
+            color: var(--vert);
+        }
+
+        .badge-inactive {
+            background: #fce4ec;
+            color: #c62828;
+        }
+
+        .badge-pending {
+            background: #fff3e0;
+            color: var(--orange);
+        }
+
+        .badge-admin {
+            background: #e3f2fd;
+            color: var(--bleu);
+        }
+
+        @media (max-width: 768px) {
+            .admin-sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding: 1rem;
+            }
+
+            .admin-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+
+            .admin-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .table-overflow {
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- SIDEBAR -->
+        <div class="admin-sidebar">
+            <div class="admin-logo">🔐 Admin</div>
+            <div class="admin-nav">
+                <button class="nav-btn active" data-section="dashboard">📊 Tableau de bord</button>
+                <button class="nav-btn" data-section="profiles">👥 Membres</button>
+                <button class="nav-btn" data-section="events">📅 Événements</button>
+                <button class="nav-btn" data-section="settings">⚙️ Paramètres</button>
+            </div>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="admin-content">
+            <div class="admin-header">
+                <h1>Tableau de bord administrateur</h1>
+                <div class="admin-user">
+                    <span>👤 Administrateur</span>
+                    <button class="btn-logout" onclick="logout()">Déconnexion</button>
+                </div>
+            </div>
+
+            <!-- DASHBOARD SECTION -->
+            <div class="admin-section active" id="dashboard">
+                <h2>Statistiques du site</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Membres inscrits</div>
+                        <div class="stat-number" id="statProfiles">0</div>
+                    </div>
+                    <div class="stat-card blue">
+                        <div class="stat-label">Événements créés</div>
+                        <div class="stat-number" id="statEvents">0</div>
+                    </div>
+                    <div class="stat-card orange">
+                        <div class="stat-label">Visites totales</div>
+                        <div class="stat-number" id="statVisits">0</div>
+                    </div>
+                    <div class="stat-card light">
+                        <div class="stat-label">Dernière activité</div>
+                        <div class="stat-number" id="statLastActivity" style="font-size: 1rem;">--</div>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3>Activités récentes</h3>
+                        <button class="btn-sync" onclick="clearActivities()">🗑️ Effacer</button>
+                    </div>
+                    <div id="activitiesList">
+                        <p class="empty-state">Aucune activité enregistrée</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROFILES SECTION -->
+            <div class="admin-section" id="profiles">
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3>Gestion des membres</h3>
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            <button class="btn-add" onclick="toggleMemberForm()">+ Ajouter un membre</button>
+                            <button class="btn-sync" onclick="syncMembersFromUsers()">🔄 Synchroniser</button>
+                        </div>
+                    </div>
+
+                    <div id="memberMessage" class="message"></div>
+
+                    <div class="form-container" id="memberForm">
+                        <h3 id="memberFormTitle">Ajouter un membre</h3>
+                        <form onsubmit="saveMember(event)">
+                            <input type="hidden" id="editMemberId" value="" />
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="memberNom">Nom *</label>
+                                    <input type="text" id="memberNom" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="memberPrenom">Prénom *</label>
+                                    <input type="text" id="memberPrenom" required />
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="memberEmail">Email</label>
+                                    <input type="email" id="memberEmail" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="memberMatricule">Matricule</label>
+                                    <input type="text" id="memberMatricule" placeholder="Auto-généré si vide" />
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="memberVille">Ville</label>
+                                    <input type="text" id="memberVille" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="memberPays">Pays</label>
+                                    <input type="text" id="memberPays" />
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="memberTelephone">Téléphone</label>
+                                    <input type="tel" id="memberTelephone" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="memberMetier">Métier</label>
+                                    <input type="text" id="memberMetier" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="memberStatus">Statut</label>
+                                <select id="memberStatus">
+                                    <option value="active">Actif</option>
+                                    <option value="inactive">Inactif</option>
+                                    <option value="pending">En attente</option>
+                                </select>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn-submit">💾 Enregistrer</button>
+                                <button type="button" class="btn-cancel" onclick="toggleMemberForm()">Annuler</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="table-overflow">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nom</th>
+                                    <th>Prénom</th>
+                                    <th>Matricule</th>
+                                    <th>Ville</th>
+                                    <th>Pays</th>
+                                    <th>Métier</th>
+                                    <th>Statut</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="membersTable">
+                                <tr>
+                                    <td colspan="9" class="empty-state">
+                                        <p>Aucun membre trouvé</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EVENTS SECTION -->
+            <div class="admin-section" id="events">
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3>Gestion des événements</h3>
+                        <button class="btn-add" onclick="toggleEventForm()">+ Ajouter un événement</button>
+                    </div>
+
+                    <div id="eventMessage" class="message"></div>
+
+                    <div class="form-container" id="eventForm">
+                        <h3>Nouvel événement</h3>
+                        <form onsubmit="saveEvent(event)">
+                            <input type="hidden" id="editEventId" value="" />
+                            <div class="form-group">
+                                <label for="eventTitle">Titre *</label>
+                                <input type="text" id="eventTitle" required />
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="eventDate">Date *</label>
+                                    <input type="date" id="eventDate" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="eventLocation">Lieu *</label>
+                                    <input type="text" id="eventLocation" required />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="eventDescription">Description *</label>
+                                <textarea id="eventDescription" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="eventImage">URL de l'image</label>
+                                <input type="text" id="eventImage" placeholder="https://..." />
+                            </div>
+                            <div class="form-group">
+                                <label for="eventTag">Catégorie</label>
+                                <select id="eventTag">
+                                    <option value="Assemblée générale">Assemblée générale</option>
+                                    <option value="Éducation">Éducation</option>
+                                    <option value="Diaspora">Diaspora</option>
+                                    <option value="Culture">Culture</option>
+                                    <option value="Solidarité">Solidarité</option>
+                                    <option value="Autre">Autre</option>
+                                </select>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn-submit">💾 Enregistrer</button>
+                                <button type="button" class="btn-cancel" onclick="toggleEventForm()">Annuler</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="table-overflow">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Titre</th>
+                                    <th>Date</th>
+                                    <th>Lieu</th>
+                                    <th>Catégorie</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="eventsTable">
+                                <tr>
+                                    <td colspan="5" class="empty-state">
+                                        <p>Aucun événement trouvé</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SETTINGS SECTION -->
+            <div class="admin-section" id="settings">
+                <div class="table-container">
+                    <h3>Paramètres administrateur</h3>
+                    <form onsubmit="saveSettings(event)">
+                        <div class="form-group">
+                            <label for="newPassword">Nouveau mot de passe</label>
+                            <input type="password" id="newPassword" placeholder="Laisser vide pour ne pas changer" />
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirmer le mot de passe</label>
+                            <input type="password" id="confirmPassword" placeholder="Confirmer le mot de passe" />
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn-submit">Mettre à jour</button>
+                        </div>
+                    </form>
+
+                    <hr style="margin: 2rem 0; border: 1px solid var(--gris-border);">
+
+                    <h3>Statistiques d'utilisation</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-label">Connexions admin</div>
+                            <div class="stat-number" id="settingLogins">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Dernière connexion</div>
+                            <div class="stat-number" id="settingLastLogin" style="font-size: 1rem;">--</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // AUTH
+        // ============================================
+        function checkAuth() {
+            const token = localStorage.getItem('adminToken');
+            if (!token) {
+                window.location.href = 'admin_login.html';
+            }
+        }
+        checkAuth();
+
+        // ============================================
+        // NAVIGATION
+        // ============================================
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const section = this.dataset.section;
+                document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                document.getElementById(section).classList.add('active');
+                this.classList.add('active');
+
+                if (section === 'profiles') loadMembers();
+                if (section === 'events') loadEvents();
+                if (section === 'settings') loadSettings();
+            });
+        });
+
+        // ============================================
+        // DASHBOARD
+        // ============================================
+        function loadDashboard() {
+            const members = JSON.parse(localStorage.getItem('members')) || [];
+            const events = JSON.parse(localStorage.getItem('events')) || [];
+            let visits = parseInt(localStorage.getItem('siteVisits')) || 0;
+            visits++;
+            localStorage.setItem('siteVisits', visits);
+
+            document.getElementById('statProfiles').textContent = members.length;
+            document.getElementById('statEvents').textContent = events.length;
+            document.getElementById('statVisits').textContent = visits;
+
+            const lastLogin = localStorage.getItem('adminLoginTime');
+            if (lastLogin) {
+                const date = new Date(lastLogin);
+                document.getElementById('statLastActivity').textContent = 
+                    date.toLocaleDateString('fr-FR') + ' ' + date.getHours() + 'h' + String(date.getMinutes()).padStart(2, '0');
+            }
+
+            loadActivities();
+        }
+
+        function loadActivities() {
+            const activities = JSON.parse(localStorage.getItem('activities')) || [];
+            const container = document.getElementById('activitiesList');
+            
+            if (activities.length === 0) {
+                container.innerHTML = '<p class="empty-state">Aucune activité enregistrée</p>';
+                return;
+            }
+
+            container.innerHTML = activities.slice(-20).reverse().map(a => `
+                <div style="padding: 12px 0; border-bottom: 1px solid var(--gris-border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+                    <span><strong>${a.action}</strong></span>
+                    <span style="color: #6c757d; font-size: 0.85rem;">${a.timestamp}</span>
+                </div>
+            `).join('');
+        }
+
+        function clearActivities() {
+            if (confirm('Supprimer toutes les activités ?')) {
+                localStorage.setItem('activities', JSON.stringify([]));
+                loadActivities();
+            }
+        }
+
+        function logActivity(action) {
+            const activities = JSON.parse(localStorage.getItem('activities')) || [];
+            activities.push({
+                action: action,
+                timestamp: new Date().toLocaleString('fr-FR')
+            });
+            localStorage.setItem('activities', JSON.stringify(activities.slice(-100)));
+        }
+
+        // ============================================
+        // SYNC MEMBERS FROM USERS
+        // ============================================
+        function syncMembersFromUsers() {
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const members = JSON.parse(localStorage.getItem('members')) || [];
+            
+            // Créer une map des membres existants par id
+            const memberMap = {};
+            members.forEach(m => { memberMap[m.id] = m; });
+
+            // Ajouter ou mettre à jour les membres depuis les utilisateurs
+            let updated = false;
+            users.forEach(u => {
+                const existing = memberMap[u.id];
+                const memberData = {
+                    id: u.id,
+                    nom: u.nom || u.lastName || u.nom || '--',
+                    prenom: u.prenom || u.firstName || u.prenom || '--',
+                    matricule: u.matricule || 'SADNOW-' + new Date().getFullYear() + '-' + String(Math.floor(Math.random() * 10000)).padStart(4, '0'),
+                    ville: u.ville || u.city || 'Non renseigné',
+                    pays: u.pays || u.country || 'Non renseigné',
+                    telephone: u.telephone || u.phone || 'Non renseigné',
+                    metier: u.metier || 'Non renseigné',
+                    statut: u.status || 'active',
+                    email: u.email || ''
+                };
+
+                if (!existing) {
+                    members.push(memberData);
+                    updated = true;
+                } else {
+                    // Mettre à jour si différent
+                    let changed = false;
+                    ['nom', 'prenom', 'matricule', 'ville', 'pays', 'telephone', 'metier', 'statut'].forEach(field => {
+                        if (memberData[field] !== existing[field]) {
+                            existing[field] = memberData[field];
+                            changed = true;
+                        }
+                    });
+                    if (changed) updated = true;
+                }
+            });
+
+            if (updated) {
+                localStorage.setItem('members', JSON.stringify(members));
+                showMessage('memberMessage', '✅ Membres synchronisés avec succès !', 'success');
+                loadMembers();
+                logActivity('Synchronisation des membres effectuée');
+            } else {
+                showMessage('memberMessage', 'ℹ️ Aucune mise à jour nécessaire.', 'success');
+            }
+
+            setTimeout(() => {
+                document.getElementById('memberMessage').classList.remove('show');
+            }, 3000);
+        }
+
+        // ============================================
+        // MEMBERS CRUD
+        // ============================================
+        function toggleMemberForm() {
+            const form = document.getElementById('memberForm');
+            form.classList.toggle('show');
+            if (!form.classList.contains('show')) {
+                document.getElementById('editMemberId').value = '';
+                document.getElementById('memberFormTitle').textContent = 'Ajouter un membre';
+                document.getElementById('memberNom').value = '';
+                document.getElementById('memberPrenom').value = '';
+                document.getElementById('memberEmail').value = '';
+                document.getElementById('memberMatricule').value = '';
+                document.getElementById('memberVille').value = '';
+                document.getElementById('memberPays').value = '';
+                document.getElementById('memberTelephone').value = '';
+                document.getElementById('memberMetier').value = '';
+                document.getElementById('memberStatus').value = 'active';
+            } else {
+                document.getElementById('memberNom').focus();
+            }
+        }
+
+        function saveMember(e) {
+            e.preventDefault();
+            
+            const id = document.getElementById('editMemberId').value;
+            const nom = document.getElementById('memberNom').value.trim();
+            const prenom = document.getElementById('memberPrenom').value.trim();
+            const email = document.getElementById('memberEmail').value.trim();
+            const matricule = document.getElementById('memberMatricule').value.trim() || 
+                'SADNOW-' + new Date().getFullYear() + '-' + String(Math.floor(Math.random() * 10000)).padStart(4, '0');
+            const ville = document.getElementById('memberVille').value.trim() || 'Non renseigné';
+            const pays = document.getElementById('memberPays').value.trim() || 'Non renseigné';
+            const telephone = document.getElementById('memberTelephone').value.trim() || 'Non renseigné';
+            const metier = document.getElementById('memberMetier').value.trim() || 'Non renseigné';
+            const statut = document.getElementById('memberStatus').value;
+
+            if (!nom || !prenom) {
+                showMessage('memberMessage', '❌ Le nom et le prénom sont obligatoires !', 'error');
+                return;
+            }
+
+            const members = JSON.parse(localStorage.getItem('members')) || [];
+
+            if (id) {
+                // Modification
+                const index = members.findIndex(m => m.id === id);
+                if (index >= 0) {
+                    members[index] = { ...members[index], nom, prenom, email, matricule, ville, pays, telephone, metier, statut };
+                    logActivity(`Membre modifié: ${prenom} ${nom}`);
+                }
+            } else {
+                // Ajout
+                const newMember = {
+                    id: 'member_' + Date.now(),
+                    nom,
+                    prenom,
+                    email,
+                    matricule,
+                    ville,
+                    pays,
+                    telephone,
+                    metier,
+                    statut
+                };
+                members.push(newMember);
+                logActivity(`Membre ajouté: ${prenom} ${nom}`);
+            }
+
+            localStorage.setItem('members', JSON.stringify(members));
+            showMessage('memberMessage', '✅ Membre enregistré avec succès !', 'success');
+            loadMembers();
+            toggleMemberForm();
+
+            setTimeout(() => {
+                document.getElementById('memberMessage').classList.remove('show');
+            }, 3000);
+        }
+
+        function loadMembers() {
+            const members = JSON.parse(localStorage.getItem('members')) || [];
+            const tbody = document.getElementById('membersTable');
+
+            if (members.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="9" class="empty-state"><p>Aucun membre trouvé</p></td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = members.map((m, i) => {
+                const statusBadge = {
+                    'active': 'badge-active',
+                    'inactive': 'badge-inactive',
+                    'pending': 'badge-pending'
+                }[m.statut] || 'badge-pending';
+                
+                const statusLabel = {
+                    'active': 'Actif',
+                    'inactive': 'Inactif',
+                    'pending': 'En attente'
+                }[m.statut] || m.statut;
+
+                return `
+                    <tr>
+                        <td>${i + 1}</td>
+                        <td><strong>${m.nom || '--'}</strong></td>
+                        <td>${m.prenom || '--'}</td>
+                        <td><span style="background: #d8f3dc; padding: 3px 8px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; color: var(--vert);">${m.matricule || '--'}</span></td>
+                        <td>${m.ville || '--'}</td>
+                        <td>${m.pays || '--'}</td>
+                        <td>${m.metier || '--'}</td>
+                        <td><span class="badge-status ${statusBadge}">${statusLabel}</span></td>
+                        <td>
+                            <div class="action-btns">
+                                <button class="btn-edit" onclick="editMember('${m.id}')">✏️</button>
+                                <button class="btn-delete" onclick="deleteMember('${m.id}')">🗑️</button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function editMember(id) {
+            const members = JSON.parse(localStorage.getItem('members')) || [];
+            const member = members.find(m => m.id === id);
+            if (!member) return;
+
+            document.getElementById('editMemberId').value = member.id;
+            document.getElementById('memberFormTitle').textContent = 'Modifier le membre';
+            document.getElementById('memberNom').value = member.nom || '';
+            document.getElementById('memberPrenom').value = member.prenom || '';
+            document.getElementById('memberEmail').value = member.email || '';
+            document.getElementById('memberMatricule').value = member.matricule || '';
+            document.getElementById('memberVille').value = member.ville || '';
+            document.getElementById('memberPays').value = member.pays || '';
+            document.getElementById('memberTelephone').value = member.telephone || '';
+            document.getElementById('memberMetier').value = member.metier || '';
+            document.getElementById('memberStatus').value = member.statut || 'active';
+
+            document.getElementById('memberForm').classList.add('show');
+            document.getElementById('memberNom').focus();
+        }
+
+        function deleteMember(id) {
+            if (!confirm('Êtes-vous sûr de vouloir supprimer ce membre ?')) return;
+
+            const members = JSON.parse(localStorage.getItem('members')) || [];
+            const member = members.find(m => m.id === id);
+            const index = members.indexOf(member);
+            
+            if (index >= 0) {
+                const nom = member.nom || 'inconnu';
+                const prenom = member.prenom || '';
+                members.splice(index, 1);
+                localStorage.setItem('members', JSON.stringify(members));
+                logActivity(`Membre supprimé: ${prenom} ${nom}`);
+                showMessage('memberMessage', '✅ Membre supprimé avec succès !', 'success');
+                loadMembers();
+                
+                setTimeout(() => {
+                    document.getElementById('memberMessage').classList.remove('show');
+                }, 3000);
+            }
+        }
+
+        // ============================================
+        // EVENTS CRUD
+        // ============================================
+        function toggleEventForm() {
+            const form = document.getElementById('eventForm');
+            form.classList.toggle('show');
+            if (!form.classList.contains('show')) {
+                document.getElementById('editEventId').value = '';
+                document.getElementById('eventTitle').value = '';
+                document.getElementById('eventDate').value = '';
+                document.getElementById('eventLocation').value = '';
+                document.getElementById('eventDescription').value = '';
+                document.getElementById('eventImage').value = '';
+                document.getElementById('eventTag').value = 'Assemblée générale';
+            } else {
+                document.getElementById('eventTitle').focus();
+            }
+        }
+
+        function saveEvent(e) {
+            e.preventDefault();
+            
+            const id = document.getElementById('editEventId').value;
+            const title = document.getElementById('eventTitle').value.trim();
+            const date = document.getElementById('eventDate').value;
+            const location = document.getElementById('eventLocation').value.trim();
+            const description = document.getElementById('eventDescription').value.trim();
+            const image = document.getElementById('eventImage').value.trim();
+            const tag = document.getElementById('eventTag').value;
+
+            if (!title || !date || !location || !description) {
+                showMessage('eventMessage', '❌ Tous les champs obligatoires doivent être remplis !', 'error');
+                return;
+            }
+
+            const events = JSON.parse(localStorage.getItem('events')) || [];
+
+            if (id) {
+                const index = events.findIndex(e => e.id === id);
+                if (index >= 0) {
+                    events[index] = { ...events[index], title, date, location, description, image, tag };
+                    logActivity(`Événement modifié: ${title}`);
+                }
+            } else {
+                const newEvent = {
+                    id: 'event_' + Date.now(),
+                    title,
+                    date,
+                    location,
+                    description,
+                    image,
+                    tag,
+                    createdDate: new Date().toLocaleDateString('fr-FR')
+                };
+                events.push(newEvent);
+                logActivity(`Événement créé: ${title}`);
+            }
+
+            localStorage.setItem('events', JSON.stringify(events));
+            
+            // Mettre à jour homepageEvents pour l'affichage sur la page d'accueil
+            updateHomepageEvents(events);
+
+            showMessage('eventMessage', '✅ Événement enregistré avec succès !', 'success');
+            loadEvents();
+            toggleEventForm();
+
+            setTimeout(() => {
+                document.getElementById('eventMessage').classList.remove('show');
+            }, 3000);
+        }
+
+        function updateHomepageEvents(events) {
+            const homepageEvents = events.map(e => ({
+                id: e.id,
+                title: e.title,
+                date: e.date,
+                location: e.location,
+                description: e.description,
+                image: e.image || '',
+                tag: e.tag || 'Événement'
+            }));
+            localStorage.setItem('homepageEvents', JSON.stringify(homepageEvents));
+        }
+
+        function loadEvents() {
+            const events = JSON.parse(localStorage.getItem('events')) || [];
+            const tbody = document.getElementById('eventsTable');
+
+            if (events.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="empty-state"><p>Aucun événement trouvé</p></td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = events.map(e => `
+                <tr>
+                    <td><strong>${e.title}</strong></td>
+                    <td>${e.date}</td>
+                    <td>${e.location}</td>
+                    <td><span style="background: #d8f3dc; padding: 3px 10px; border-radius: 50px; font-size: 0.75rem; font-weight: 600; color: var(--vert);">${e.tag || 'Événement'}</span></td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="btn-edit" onclick="editEvent('${e.id}')">✏️</button>
+                            <button class="btn-delete" onclick="deleteEvent('${e.id}')">🗑️</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function editEvent(id) {
+            const events = JSON.parse(localStorage.getItem('events')) || [];
+            const event = events.find(e => e.id === id);
+            if (!event) return;
+
+            document.getElementById('editEventId').value = event.id;
+            document.getElementById('eventTitle').value = event.title;
+            document.getElementById('eventDate').value = event.date;
+            document.getElementById('eventLocation').value = event.location;
+            document.getElementById('eventDescription').value = event.description;
+            document.getElementById('eventImage').value = event.image || '';
+            document.getElementById('eventTag').value = event.tag || 'Assemblée générale';
+
+            document.getElementById('eventForm').classList.add('show');
+            document.getElementById('eventTitle').focus();
+        }
+
+        function deleteEvent(id) {
+            if (!confirm('Êtes-vous sûr de vouloir supprimer cet événement ?')) return;
+
+            const events = JSON.parse(localStorage.getItem('events')) || [];
+            const event = events.find(e => e.id === id);
+            const index = events.indexOf(event);
+            
+            if (index >= 0) {
+                events.splice(index, 1);
+                localStorage.setItem('events', JSON.stringify(events));
+                updateHomepageEvents(events);
+                logActivity(`Événement supprimé: ${event.title}`);
+                showMessage('eventMessage', '✅ Événement supprimé avec succès !', 'success');
+                loadEvents();
+                
+                setTimeout(() => {
+                    document.getElementById('eventMessage').classList.remove('show');
+                }, 3000);
+            }
+        }
+
+        // ============================================
+        // SETTINGS
+        // ============================================
+        function saveSettings(e) {
+            e.preventDefault();
+            const pwd = document.getElementById('newPassword').value;
+            const confirm = document.getElementById('confirmPassword').value;
+
+            if (pwd || confirm) {
+                if (pwd !== confirm) {
+                    alert('❌ Les mots de passe ne correspondent pas !');
+                    return;
+                }
+                if (pwd.length < 6) {
+                    alert('❌ Le mot de passe doit contenir au moins 6 caractères !');
+                    return;
+                }
+                localStorage.setItem('adminPassword', pwd);
+                logActivity('Mot de passe admin modifié');
+            }
+
+            alert('✅ Paramètres mis à jour avec succès !');
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+        }
+
+        function loadSettings() {
+            const logins = parseInt(localStorage.getItem('adminLogins')) || 0;
+            document.getElementById('settingLogins').textContent = logins;
+            
+            const lastLogin = localStorage.getItem('adminLoginTime');
+            if (lastLogin) {
+                document.getElementById('settingLastLogin').textContent = new Date(lastLogin).toLocaleString('fr-FR');
+            }
+        }
+
+        // ============================================
+        // UTILITIES
+        // ============================================
+        function showMessage(elementId, text, type) {
+            const msg = document.getElementById(elementId);
+            msg.textContent = text;
+            msg.className = `message ${type} show`;
+        }
+
+        function logout() {
+            if (confirm('Êtes-vous sûr de vouloir vous déconnecter ?')) {
+                localStorage.removeItem('adminToken');
+                localStorage.removeItem('adminLoginTime');
+                window.location.href = 'admin_login.html';
+            }
+        }
+
+        // ============================================
+        // INIT
+        // ============================================
+        loadDashboard();
+        loadMembers();
+        loadEvents();
+        loadSettings();
+
+        // Synchroniser automatiquement les membres au chargement
+        setTimeout(syncMembersFromUsers, 500);
+    </script>
+</body>
+</html>

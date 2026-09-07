@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mon Profil - Association SADONOU</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:wght@600;700;800&display=swap" rel="stylesheet" />
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        h1, h2, h3, h4 { font-family: 'Fraunces', serif; }
+        
+        :root {
+            --vert: #2d6a4f;
+            --vert-light: #52b788;
+            --bleu: #1d3557;
+            --bleu-light: #457b9d;
+            --jaune: #f4a261;
+            --orange: #e76f51;
+            --gris: #f8f9fa;
+            --gris-border: #e9ecef;
+        }
+
+        body {
+            background: var(--gris);
+            margin: 0;
+            padding: 0;
+        }
+
+        /* NAV */
+        .assoc-nav {
+            background: var(--bleu);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.15);
+        }
+        .assoc-nav .nav-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 72px;
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        .nav-logo img {
+            height: 48px;
+            width: 48px;
+            object-fit: contain;
+            border-radius: 50%;
+            background: white;
+            padding: 3px;
+        }
+        .nav-logo-text .name {
+            font-family: 'Fraunces', serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: white;
+            line-height: 1.2;
+        }
+        .nav-logo-text .sub {
+            font-size: 0.65rem;
+            color: var(--jaune);
+            font-weight: 500;
+            letter-spacing: 0.05em;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+        .nav-links a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+            position: relative;
+            padding-bottom: 4px;
+        }
+        .nav-links a:hover { color: var(--jaune); }
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 2px;
+            background: var(--jaune);
+            border-radius: 2px;
+        }
+        .nav-cta {
+            background: var(--vert) !important;
+            color: white !important;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-weight: 700 !important;
+        }
+        .nav-cta:hover {
+            background: var(--vert-light) !important;
+        }
+        .logout-btn {
+            background: var(--orange) !important;
+            color: white !important;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-weight: 700 !important;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+        .logout-btn:hover {
+            background: #d65a40 !important;
+        }
+        .mobile-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+        .mobile-menu {
+            display: none;
+            background: var(--bleu);
+            padding: 1rem 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .mobile-menu a {
+            display: block;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            padding: 10px 0;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .mobile-menu a.active { color: var(--jaune); }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .mobile-btn { display: block; }
+        }
+
+        .profile-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* HEADER */
+        .profile-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .profile-header h1 {
+            color: var(--bleu);
+            font-size: 2.5rem;
+            margin: 0 0 1rem 0;
+        }
+
+        .profile-header p {
+            color: #6c757d;
+            font-size: 1rem;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .breadcrumb a {
+            color: var(--bleu);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .breadcrumb a:hover { text-decoration: underline; }
+        .breadcrumb span { color: #6c757d; margin: 0 0.5rem; }
+
+        /* ALERT */
+        .profile-incomplete-alert {
+            background: #fff9e6;
+            border: 2px solid var(--jaune);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: none;
+        }
+        .profile-incomplete-alert.show { display: block; }
+
+        .alert-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        .alert-badge {
+            background: var(--jaune);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+        .alert-percentage { color: var(--orange); font-weight: 600; }
+        .alert-title { font-size: 1.1rem; font-weight: 700; color: var(--bleu); margin: 0; }
+        .alert-subtitle { color: #6c757d; font-size: 0.9rem; margin: 0.5rem 0 0 0; }
+
+        .alert-content {
+            border: 2px solid var(--jaune);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        .alert-content h4 {
+            color: var(--orange);
+            margin: 0 0 0.5rem 0;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .alert-content p { color: #6c757d; font-size: 0.85rem; margin: 0; }
+
+        .alert-fields {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .alert-field-tag {
+            background: white;
+            border: 1px solid var(--jaune);
+            color: var(--orange);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .progress-bar-container { margin: 1.5rem 0; }
+        .progress-bar-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--jaune) 0%, var(--orange) 100%);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .alert-actions { margin-top: 1.5rem; }
+        .btn-update-profile {
+            background: var(--orange);
+            color: white;
+            padding: 12px 28px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-update-profile:hover {
+            background: #d65a40;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(231,111,81,0.3);
+        }
+
+        /* MAIN CONTENT */
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        @media (max-width: 768px) { .profile-grid { grid-template-columns: 1fr; } }
+
+        .profile-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 2rem;
+        }
+        .profile-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--gris-border);
+        }
+        .profile-card-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--vert);
+            margin: 0;
+        }
+        .profile-card-mode {
+            font-size: 0.75rem;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .profile-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--bleu);
+            margin: 0.5rem 0;
+        }
+        .profile-subtitle {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin: 1rem 0;
+            line-height: 1.6;
+        }
+
+        .btn-modifier {
+            background: var(--vert);
+            color: white;
+            padding: 10px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+        .btn-modifier:hover { background: var(--vert-light); }
+
+        .completion-percentage {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--bleu);
+        }
+        .completion-text {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        /* FORMULAIRE */
+        .profile-form {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            display: none;
+        }
+        .profile-form.show { display: block; }
+
+        .profile-form h3 {
+            color: var(--bleu);
+            font-size: 1.3rem;
+            margin: 0 0 1.5rem 0;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--gris-border);
+        }
+
+        .form-section { margin-bottom: 2rem; }
+        .form-section h4 {
+            color: var(--bleu);
+            font-size: 1.05rem;
+            margin: 0 0 1.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        .form-row.full { grid-template-columns: 1fr; }
+        @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--bleu);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        .form-group.required label::after {
+            content: ' *';
+            color: var(--orange);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--gris-border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--vert);
+            box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.1);
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* PHOTO UPLOAD */
+        .photo-upload {
+            border: 2px dashed var(--gris-border);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .photo-upload:hover {
+            border-color: var(--vert);
+            background: #f8fdf8;
+        }
+        .photo-preview {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 1rem;
+            border: 3px solid var(--vert);
+            display: none;
+        }
+        .photo-preview.show { display: block; }
+        .photo-upload-placeholder {
+            width: 150px;
+            height: 150px;
+            background: #e9ecef;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #6c757d;
+        }
+        .photo-upload-placeholder.hidden { display: none; }
+        .photo-upload p { color: #6c757d; font-size: 0.9rem; margin: 0; }
+        #profilePhotoUpload { display: none; }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid var(--gris-border);
+        }
+        .btn-submit {
+            background: var(--vert);
+            color: white;
+            padding: 12px 32px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-submit:hover { background: var(--vert-light); }
+        .btn-cancel {
+            background: #6c757d;
+            color: white;
+            padding: 12px 32px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-cancel:hover { background: #5a6268; }
+
+        /* MEMBER CARD */
+        .member-card {
+            background: var(--gris);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .member-card h5 {
+            color: var(--vert);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            margin: 0 0 0.5rem 0;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+        }
+        .member-card p { color: #6c757d; margin: 0.3rem 0; font-size: 0.9rem; }
+        .member-card strong { color: var(--bleu); }
+
+        .member-card-locked,
+        .member-card-unlocked {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+        .member-card-locked {
+            background: #f0f0f0;
+            border: 2px solid #ddd;
+            text-align: center;
+        }
+        .member-card-locked p { margin: 0.5rem 0; color: #666; }
+        .member-card-unlocked {
+            background: white;
+            border: 2px solid var(--vert);
+        }
+
+        .member-card-preview {
+            background: linear-gradient(135deg, var(--vert) 0%, var(--vert-light) 100%);
+            border-radius: 8px;
+            padding: 1.5rem;
+            color: white;
+            box-shadow: 0 4px 15px rgba(45, 106, 79, 0.3);
+            aspect-ratio: 16/9;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 220px;
+        }
+        .member-card-content {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        .member-card-header-card {
+            text-align: center;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+        }
+        .member-card-header-card h6 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            margin: 0;
+            color: white;
+        }
+        .member-card-header-card p {
+            font-size: 0.7rem;
+            margin: 0;
+            color: rgba(255,255,255,0.8);
+        }
+        .member-card-photo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: rgba(255,255,255,0.2);
+            margin: 1rem auto;
+            flex-shrink: 0;
+        }
+        .member-card-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .member-card-info {
+            flex: 1;
+            font-size: 0.85rem;
+            padding: 0.5rem 0;
+        }
+        .member-card-info p { color: white; margin: 0.4rem 0; }
+        .member-card-footer {
+            text-align: center;
+            padding-top: 0.5rem;
+            border-top: 1px solid rgba(255,255,255,0.3);
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .btn-download-card {
+            background: var(--vert);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+            width: 100%;
+            margin-top: 1rem;
+        }
+        .btn-download-card:hover {
+            background: var(--vert-light);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(45, 106, 79, 0.3);
+        }
+
+        .disconnect-section {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid var(--gris-border);
+        }
+        .btn-disconnect {
+            width: 100%;
+            background: #dc3545;
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-disconnect:hover { background: #c82333; }
+
+        @media (max-width: 768px) {
+            .assoc-nav .nav-inner { flex-direction: column; height: auto; padding: 0.5rem 1.5rem; gap: 0.5rem; }
+            .nav-links { flex-wrap: wrap; justify-content: center; gap: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ============ NAVIGATION ============ -->
+<nav class="assoc-nav">
+    <div class="nav-inner">
+        <a href="homepage_professional_tax_services.html" class="nav-logo">
+            <img src="../static/images/logo.jpg" alt="Logo SADONOU" onerror="this.style.display='none'" />
+            <div class="nav-logo-text">
+                <span class="name">Alladaxónou Houègbonou</span>
+                <span class="sub">Association SADONOU</span>
+            </div>
+        </a>
+        <div class="nav-links">
+            <a href="homepage_professional_tax_services.html">Accueil</a>
+            <a href="services_tax_financial_solutions.html">Plaquette</a>
+            <a href="blog_tax_insights_thought_leadership.html">Actualités</a>
+            <span style="color: rgba(255,255,255,0.3);">|</span>
+            <a href="user_profile.html" class="nav-cta">👤 Mon profil</a>
+            <button class="logout-btn" onclick="logout()">Déconnexion</button>
+        </div>
+        <button class="mobile-btn" id="mobile-btn" aria-label="Menu">
+            <svg width="24" height="24" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+        </button>
+    </div>
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="homepage_professional_tax_services.html">Accueil</a>
+        <a href="services_tax_financial_solutions.html">Plaquette</a>
+        <a href="blog_tax_insights_thought_leadership.html">Actualités</a>
+        <a href="user_profile.html" style="color: var(--jaune);">👤 Mon profil</a>
+        <a href="#" onclick="logout(); return false;" style="color: var(--orange);">Déconnexion</a>
+    </div>
+</nav>
+
+<!-- ============ CONTAINER ============ -->
+<div class="profile-container">
+
+    <!-- HEADER -->
+    <div class="profile-header">
+        <h1>👤 Mon Profil</h1>
+        <p>Consultez et mettez à jour vos informations personnelles afin de rester connecté à l'Association Alladaxónou Houègbonou SADONOU.</p>
+        <div class="breadcrumb">
+            <a href="homepage_professional_tax_services.html">Accueil</a>
+            <span>></span>
+            <span>Profil</span>
+        </div>
+    </div>
+
+    <!-- ALERT INCOMPLET -->
+    <div class="profile-incomplete-alert" id="incompleteAlert">
+        <div class="alert-header">
+            <span class="alert-badge">⚠️ Profil incomplet</span>
+            <span class="alert-percentage" id="alertPercentage">0% complété</span>
+        </div>
+        <h3 class="alert-title">Complétez votre profil pour le répertoire</h3>
+        <p class="alert-subtitle">Les champs manquants sont listés ci-dessous.</p>
+        
+        <div class="alert-content">
+            <h4>📋 <span id="missingFieldsCount">0</span> champs à compléter</h4>
+            <p>Profil à <span id="progressPercentage2">0%</span> — renseignez les éléments ci-dessous pour apparaître dans le répertoire et la plaquette.</p>
+            <div class="alert-fields" id="alertFields"></div>
+        </div>
+
+        <div class="progress-bar-container">
+            <div class="progress-bar-label">
+                <span>Progression</span>
+                <span id="progressPercentage">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+            </div>
+        </div>
+
+        <div class="alert-actions">
+            <button class="btn-update-profile" onclick="toggleForm()">📝 Mettre à jour mon profil</button>
+        </div>
+    </div>
+
+    <!-- GRILLE PROFIL -->
+    <div class="profile-grid">
+        <!-- LEFT -->
+        <div class="profile-card">
+            <div class="profile-card-header">
+                <div>
+                    <p class="profile-card-title">MON PROFIL</p>
+                    <p class="profile-card-mode">Mode consultation</p>
+                </div>
+            </div>
+            <div class="profile-name" id="displayName">Bonjour Membre</div>
+            <p class="profile-subtitle">Consultez votre fiche. Cliquez sur Modifier pour mettre à jour un champ.</p>
+            <button class="btn-modifier" onclick="toggleForm()">✏️ Modifier</button>
+            <div class="alert-content" style="margin-top: 1.5rem;">
+                <h4>📋 <span id="missingFieldsCountLeft">0</span> champs à compléter</h4>
+                <div class="alert-fields" id="alertFieldsLeft"></div>
+            </div>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="profile-card">
+            <div class="profile-card-header">
+                <div>
+                    <p class="profile-card-title">PROFIL</p>
+                </div>
+            </div>
+            <div class="completion-percentage" id="displayCompletion">0%</div>
+            <p class="completion-text">Ce pourcentage est le même sur votre profil, l'administration et la plaquette numérique.</p>
+            
+            <div class="alert-content">
+                <h4>📋 <span id="missingFieldsCountRight">0</span> champs à compléter</h4>
+                <div class="alert-fields" id="alertFieldsRight"></div>
+            </div>
+
+            <button class="btn-modifier" style="width: 100%; margin-top: 1.5rem;" onclick="toggleForm()">📝 Compléter mon profil</button>
+
+            <div class="member-card">
+                <h5>🎫 Carte de Membre SADONOU</h5>
+                <p style="font-size: 0.8rem; color: var(--bleu-light);">Association Alladaxónou Houègbonou SADONOU</p>
+                
+                <div id="memberCardLocked" class="member-card-locked">
+                    <p>⏳ Complétez votre profil à <strong>80%</strong> pour débloquer votre carte de membre.</p>
+                    <p style="margin-top: 0.5rem; font-size: 0.85rem;"><strong>Matricule :</strong> <span id="displayMatricule">--</span></p>
+                    <p style="margin-top: 0.5rem; color: #999; font-size: 0.8rem;">📋 Progression : <span id="memberCardProgress">0%</span> (minimum 80% requis)</p>
+                </div>
+                
+                <div id="memberCardUnlocked" style="display: none;">
+                    <div class="member-card-preview">
+                        <div class="member-card-content">
+                            <div class="member-card-header-card">
+                                <h6>SADONOU</h6>
+                                <p>Association Alladaxónou Houègbonou</p>
+                            </div>
+                            <div class="member-card-photo">
+                                <img id="memberCardPhotoPreview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='60' r='40' fill='%23ddd'/%3E%3Cpath d='M 50 140 Q 50 120 100 120 Q 150 120 150 140 L 150 200 L 50 200 Z' fill='%23ddd'/%3E%3C/svg%3E" alt="Photo" />
+                            </div>
+                            <div class="member-card-info">
+                                <p id="memberCardName" style="font-weight: bold;">NOM Prénom</p>
+                                <p id="memberCardMatricule">Matricule: <strong>--</strong></p>
+                                <p id="memberCardAge">Âge: <strong>--</strong></p>
+                                <p id="memberCardNationality">Nationalité: <strong>--</strong></p>
+                            </div>
+                            <div class="member-card-footer">Carte valide - SADONOU</div>
+                        </div>
+                    </div>
+                    <button class="btn-download-card" onclick="downloadMemberCardPDF()">📥 Télécharger ma carte PDF</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ FORMULAIRE ============ -->
+    <form class="profile-form" id="profileForm" onsubmit="saveProfile(event)">
+        <h3>📝 Compléter mon profil</h3>
+
+        <!-- IDENTITÉ -->
+        <div class="form-section">
+            <h4>👤 Identité</h4>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="firstName">Prénom</label>
+                    <input type="text" id="firstName" readonly />
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Nom</label>
+                    <input type="text" id="lastName" readonly />
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group required">
+                    <label for="sexe">Sexe</label>
+                    <select id="sexe">
+                        <option value="">— Sélectionner</option>
+                        <option value="M">Masculin</option>
+                        <option value="F">Féminin</option>
+                    </select>
+                </div>
+                <div class="form-group required">
+                    <label for="birthDate">Date de naissance</label>
+                    <input type="date" id="birthDate" />
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group required">
+                    <label for="nationality">Nationalité</label>
+                    <input type="text" id="nationality" placeholder="Ex: Béninoise" />
+                </div>
+                <div class="form-group">
+                    <label for="matricule">N° matricule</label>
+                    <input type="text" id="matricule" readonly />
+                </div>
+            </div>
+            <div class="form-row full">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" readonly />
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTACT -->
+        <div class="form-section">
+            <h4>📞 Contact</h4>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="phone">Téléphone</label>
+                    <input type="tel" id="phone" placeholder="+229 XX XX XX XX" />
+                </div>
+                <div class="form-group required">
+                    <label for="city">Ville de résidence</label>
+                    <input type="text" id="city" placeholder="Ex: Cotonou" />
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group required">
+                    <label for="country">Pays de résidence</label>
+                    <input type="text" id="country" placeholder="Ex: Bénin" />
+                </div>
+            </div>
+        </div>
+
+        <!-- PHOTO -->
+        <div class="form-section">
+            <h4>📸 Photo</h4>
+            <div class="form-group full">
+                <div class="photo-upload" onclick="document.getElementById('profilePhotoUpload').click()">
+                    <img id="photoPreview" class="photo-preview" alt="Aperçu photo" />
+                    <div class="photo-upload-placeholder" id="photoPlaceholder">📷</div>
+                    <p>Cliquez pour ajouter votre photo de profil</p>
+                    <p style="font-size: 0.8rem; color: #999; margin-top: 0.5rem;">JPG, PNG - Max 5MB</p>
+                </div>
+                <input type="file" id="profilePhotoUpload" accept="image/*" onchange="handlePhotoUpload(event)" />
+            </div>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="form-actions">
+            <button type="submit" class="btn-submit">💾 Enregistrer</button>
+            <button type="button" class="btn-cancel" onclick="toggleForm()">Annuler</button>
+        </div>
+    </form>
+
+    <!-- DECONNEXION -->
+    <div class="disconnect-section">
+        <button class="btn-disconnect" onclick="logout()">🚪 Se déconnecter</button>
+    </div>
+</div>
+
+<script>
+    // ============================================
+    // MOBILE MENU
+    // ============================================
+    document.getElementById('mobile-btn').addEventListener('click', function() {
+        const menu = document.getElementById('mobile-menu');
+        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    });
+
+    // ============================================
+    // AUTH CHECK
+    // ============================================
+    function getCurrentUser() {
+        const user = JSON.parse(localStorage.getItem('currentUser'));
+        if (!user) {
+            window.location.href = 'homepage_professional_tax_services.html';
+            return null;
+        }
+        return user;
+    }
+
+    const currentUser = getCurrentUser();
+    if (!currentUser) {
+        throw new Error('Utilisateur non connecté');
+    }
+
+    let currentProfile = {};
+    let photoDataURL = null;
+
+    // ============================================
+    // LOAD PROFILE
+    // ============================================
+    function loadProfile() {
+        const profile = JSON.parse(localStorage.getItem('userProfile_' + currentUser.id)) || {};
+        currentProfile = profile;
+
+        document.getElementById('displayName').textContent = 'Bonjour ' + (profile.firstName || currentUser.firstName || 'Membre') + ' ' + (profile.lastName || currentUser.lastName || '');
+
+        document.getElementById('firstName').value = profile.firstName || currentUser.firstName || '';
+        document.getElementById('lastName').value = profile.lastName || currentUser.lastName || '';
+        document.getElementById('sexe').value = profile.sexe || '';
+        document.getElementById('birthDate').value = profile.birthDate || '';
+        document.getElementById('nationality').value = profile.nationality || '';
+        document.getElementById('matricule').value = profile.matricule || currentUser.matricule || 'SADNOW-2026-0001';
+        document.getElementById('email').value = currentUser.email || '';
+        document.getElementById('phone').value = profile.phone || currentUser.telephone || '';
+        document.getElementById('city').value = profile.city || currentUser.ville || '';
+        document.getElementById('country').value = profile.country || currentUser.pays || '';
+
+        // Photo
+        if (profile.photo) {
+            document.getElementById('photoPreview').src = profile.photo;
+            document.getElementById('photoPreview').classList.add('show');
+            document.getElementById('photoPlaceholder').classList.add('hidden');
+            document.getElementById('memberCardPhotoPreview').src = profile.photo;
+            photoDataURL = profile.photo;
+        }
+
+        document.getElementById('displayMatricule').textContent = profile.matricule || currentUser.matricule || 'SADNOW-2026-0001';
+
+        updateProfileCompletion();
+    }
+
+    // ============================================
+    // PHOTO UPLOAD
+    // ============================================
+    function handlePhotoUpload(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                photoDataURL = e.target.result;
+                document.getElementById('photoPreview').src = photoDataURL;
+                document.getElementById('photoPreview').classList.add('show');
+                document.getElementById('photoPlaceholder').classList.add('hidden');
+                document.getElementById('memberCardPhotoPreview').src = photoDataURL;
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    // ============================================
+    // COMPLETION
+    // ============================================
+    function updateProfileCompletion() {
+        const requiredFields = [
+            'sexe', 'birthDate', 'nationality', 'city', 'country'
+        ];
+
+        let filled = 0;
+        const missingFields = [];
+
+        requiredFields.forEach(field => {
+            const el = document.getElementById(field);
+            const value = el ? el.value : '';
+            if (value && value.trim() !== '') {
+                filled++;
+            } else {
+                missingFields.push(field);
+            }
+        });
+
+        // Photo compte comme un champ
+        if (photoDataURL) {
+            filled++;
+        } else {
+            missingFields.push('photo');
+        }
+
+        const totalFields = requiredFields.length + 1; // +1 pour la photo
+        const percentage = Math.round((filled / totalFields) * 100);
+        const missingCount = totalFields - filled;
+
+        document.getElementById('displayCompletion').textContent = percentage + '%';
+        document.getElementById('alertPercentage').textContent = percentage + '% complété';
+        document.getElementById('progressPercentage').textContent = percentage + '%';
+        document.getElementById('progressPercentage2').textContent = percentage + '%';
+        document.getElementById('progressFill').style.width = percentage + '%';
+
+        document.getElementById('missingFieldsCount').textContent = missingCount;
+        document.getElementById('missingFieldsCountLeft').textContent = missingCount;
+        document.getElementById('missingFieldsCountRight').textContent = missingCount;
+
+        const fieldLabels = {
+            'sexe': 'Sexe',
+            'birthDate': 'Date de naissance',
+            'nationality': 'Nationalité',
+            'city': 'Ville',
+            'country': 'Pays',
+            'photo': 'Photo de profil'
+        };
+
+        const fieldTags = missingFields.map(f => `<div class="alert-field-tag">${fieldLabels[f] || f}</div>`).join('');
+        document.getElementById('alertFields').innerHTML = fieldTags || '<div class="alert-field-tag">✅ Tous les champs sont remplis !</div>';
+        document.getElementById('alertFieldsLeft').innerHTML = fieldTags || '<div class="alert-field-tag">✅ Tous les champs sont remplis !</div>';
+        document.getElementById('alertFieldsRight').innerHTML = fieldTags || '<div class="alert-field-tag">✅ Tous les champs sont remplis !</div>';
+
+        if (percentage < 100) {
+            document.getElementById('incompleteAlert').classList.add('show');
+        } else {
+            document.getElementById('incompleteAlert').classList.remove('show');
+        }
+
+        updateMemberCard(percentage);
+    }
+
+    // ============================================
+    // MEMBER CARD
+    // ============================================
+    function updateMemberCard(percentage) {
+        const locked = document.getElementById('memberCardLocked');
+        const unlocked = document.getElementById('memberCardUnlocked');
+        document.getElementById('memberCardProgress').textContent = percentage + '%';
+
+        if (percentage >= 80) {
+            locked.style.display = 'none';
+            unlocked.style.display = 'block';
+
+            const firstName = document.getElementById('firstName').value || '--';
+            const lastName = document.getElementById('lastName').value || '--';
+            const matricule = document.getElementById('matricule').value || '--';
+            const birthDate = document.getElementById('birthDate').value || '';
+            const nationality = document.getElementById('nationality').value || '--';
+
+            let age = '--';
+            if (birthDate) {
+                const today = new Date();
+                const birth = new Date(birthDate);
+                age = today.getFullYear() - birth.getFullYear();
+                const monthDiff = today.getMonth() - birth.getMonth();
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+                    age--;
+                }
+            }
+
+            document.getElementById('memberCardName').textContent = lastName + ' ' + firstName;
+            document.getElementById('memberCardMatricule').innerHTML = 'Matricule: <strong>' + matricule + '</strong>';
+            document.getElementById('memberCardAge').innerHTML = 'Âge: <strong>' + age + '</strong>';
+            document.getElementById('memberCardNationality').innerHTML = 'Nationalité: <strong>' + nationality + '</strong>';
+        } else {
+            locked.style.display = 'block';
+            unlocked.style.display = 'none';
+        }
+    }
+
+    // ============================================
+    // FORM TOGGLE
+    // ============================================
+    function toggleForm() {
+        const form = document.getElementById('profileForm');
+        form.classList.toggle('show');
+        if (form.classList.contains('show')) {
+            form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+
+    // ============================================
+    // SAVE PROFILE
+    // ============================================
+    function saveProfile(e) {
+        e.preventDefault();
+
+        const profile = {
+            firstName: document.getElementById('firstName').value,
+            lastName: document.getElementById('lastName').value,
+            sexe: document.getElementById('sexe').value,
+            birthDate: document.getElementById('birthDate').value,
+            nationality: document.getElementById('nationality').value,
+            matricule: document.getElementById('matricule').value,
+            phone: document.getElementById('phone').value,
+            city: document.getElementById('city').value,
+            country: document.getElementById('country').value,
+            photo: photoDataURL || ''
+        };
+
+        localStorage.setItem('userProfile_' + currentUser.id, JSON.stringify(profile));
+
+        const members = JSON.parse(localStorage.getItem('members')) || [];
+        const memberIndex = members.findIndex(m => m.id === currentUser.id);
+        const memberData = {
+            id: currentUser.id,
+            nom: profile.lastName || currentUser.lastName || '',
+            prenom: profile.firstName || currentUser.firstName || '',
+            matricule: profile.matricule || currentUser.matricule || 'SADNOW-2026-0001',
+            ville: profile.city || currentUser.ville || 'Non renseigné',
+            pays: profile.country || currentUser.pays || 'Non renseigné',
+            telephone: profile.phone || currentUser.telephone || 'Non renseigné',
+            metier: currentUser.metier || 'Non renseigné',
+            statut: 'active'
+        };
+
+        if (memberIndex >= 0) {
+            members[memberIndex] = memberData;
+        } else {
+            members.push(memberData);
+        }
+        localStorage.setItem('members', JSON.stringify(members));
+
+        loadProfile();
+        toggleForm();
+        alert('✅ Profil mis à jour avec succès !');
+    }
+
+    // ============================================
+    // DOWNLOAD CARD PDF (Téléchargement direct)
+    // ============================================
+    function downloadMemberCardPDF() {
+        const firstName = document.getElementById('firstName').value || 'NOM';
+        const lastName = document.getElementById('lastName').value || 'PRENOM';
+        const matricule = document.getElementById('matricule').value || 'SADNOW-XXXX';
+        const birthDate = document.getElementById('birthDate').value || '';
+        const nationality = document.getElementById('nationality').value || '--';
+        const photo = photoDataURL || '';
+
+        let age = '--';
+        if (birthDate) {
+            const today = new Date();
+            const birth = new Date(birthDate);
+            age = today.getFullYear() - birth.getFullYear();
+            const monthDiff = today.getMonth() - birth.getMonth();
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+                age--;
+            }
+        }
+
+        const photoHtml = photo ? 
+            `<div class="photo"><img src="${photo}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;" /></div>` :
+            `<div class="photo">👤</div>`;
+
+        const html = `
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="UTF-8">
+                <title>Carte de Membre SADONOU</title>
+                <style>
+                    * { margin: 0; padding: 0; box-sizing: border-box; }
+                    body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+                    .card {
+                        max-width: 600px;
+                        margin: 0 auto;
+                        aspect-ratio: 16/9;
+                        background: linear-gradient(135deg, #2d6a4f 0%, #52b788 100%);
+                        border-radius: 12px;
+                        padding: 30px;
+                        color: white;
+                        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                    }
+                    .header { text-align: center; border-bottom: 2px solid rgba(255,255,255,0.3); padding-bottom: 15px; }
+                    .header h1 { font-size: 28px; letter-spacing: 2px; margin-bottom: 3px; }
+                    .header p { font-size: 11px; opacity: 0.9; }
+                    .content { display: flex; gap: 25px; align-items: center; flex: 1; padding: 15px 0; }
+                    .photo { width: 100px; height: 100px; background: rgba(255,255,255,0.2); border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; overflow: hidden; }
+                    .info { flex: 1; font-size: 15px; line-height: 1.7; }
+                    .info p { margin: 6px 0; }
+                    .label { font-weight: bold; opacity: 0.9; }
+                    .footer { text-align: center; border-top: 2px solid rgba(255,255,255,0.3); padding-top: 12px; font-size: 10px; opacity: 0.8; }
+                    @media print { body { padding: 0; background: none; } .card { box-shadow: none; } }
+                </style>
+            </head>
+            <body>
+                <div class="card">
+                    <div class="header">
+                        <h1>SADONOU</h1>
+                        <p>Association Alladaxónou Houègbonou</p>
+                    </div>
+                    <div class="content">
+                        ${photoHtml}
+                        <div class="info">
+                            <p><span class="label">Nom & Prénoms:</span> ${lastName} ${firstName}</p>
+                            <p><span class="label">Matricule:</span> ${matricule}</p>
+                            <p><span class="label">Âge:</span> ${age} ans</p>
+                            <p><span class="label">Nationalité:</span> ${nationality}</p>
+                        </div>
+                    </div>
+                    <div class="footer">Carte valide - Association SADONOU</div>
+                </div>
+            </body>
+            </html>
+        `;
+
+        // Télécharger en PDF via l'impression
+        const win = window.open('', '_blank');
+        if (win) {
+            win.document.write(html);
+            win.document.close();
+            setTimeout(() => {
+                win.focus();
+                win.print();
+            }, 500);
+        } else {
+            alert('Veuillez autoriser les popups pour télécharger la carte.');
+        }
+    }
+
+    // ============================================
+    // LOGOUT
+    // ============================================
+    function logout() {
+        if (confirm('Êtes-vous sûr de vouloir vous déconnecter ?')) {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'homepage_professional_tax_services.html';
+        }
+    }
+
+    // ============================================
+    // INIT
+    // ============================================
+    loadProfile();
+</script>
+</body>
+</html>
