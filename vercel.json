@@ -8,6 +8,10 @@
     {
       "source": "/pages/:path*",
       "destination": "/pages/:path*"
+    },
+    {
+      "source": "/static/:path*",
+      "destination": "/pages/static/:path*"
     }
   ],
   "headers": [
