@@ -1,82 +1,40 @@
-# HTML
+# 🏛️ Association Alladaxónou Houègbonou SADONOU
 
-A modern HTML project utilizing Tailwind CSS for building responsive web applications with minimal setup.
+![Site SADONOU](https://img.shields.io/badge/Site-SADONOU-blue)
+![Vercel](https://img.shields.io/badge/Vercel-Deployed-success)
+![HTML](https://img.shields.io/badge/HTML-5-orange)
+![CSS](https://img.shields.io/badge/CSS-3-blue)
 
-## 🚀 Features
+## 🌍 Site web officiel de l'association des descendants de la Reine ALIGBONON
 
-- **HTML5** - Modern HTML structure with best practices
-- **Tailwind CSS** - Utility-first CSS framework for rapid UI development
-- **Custom Components** - Pre-built component classes for buttons and containers
-- **NPM Scripts** - Easy-to-use commands for development and building
-- **Responsive Design** - Mobile-first approach for all screen sizes
+[![Vercel](https://vercel.com/button)](https://projet-sadonou.vercel.app)
 
-## 📋 Prerequisites
+---
 
-- Node.js (v12.x or higher)
-- npm or yarn
+## 🏛️ À propos
 
-## 🛠️ Installation
+L'**Association Alladaxónou Houègbonou SADONOU** est une communauté unie pour le développement et le rayonnement de ses membres. Elle rassemble les descendants de la **Reine ALIGBONON** dispersés dans **plus de 44 communes** à travers le Bénin et la diaspora.
 
-1. Install dependencies:
-```bash
-npm install
-# or
-yarn install
-```
+### 🎯 Nos 3 Missions Principales
 
-2. Start the development server:
-```bash
-npm run dev
-# or
-yarn dev
-```
+| # | Mission | Objectif |
+|---|---------|----------|
+| 🤝 | **Créer un cadre de retrouvailles** | Rassembler les descendants de la Reine ALIGBONON dispersés dans plus de 44 communes |
+| 📚 | **Œuvrer pour l'excellence** | Développement personnel, social et éducatif des membres |
+| 🌍 | **Promouvoir l'entraide et la solidarité** | Apporter "leur pierre à l'édification et à l'unification des AGASSOUVI" |
 
-## 📁 Project Structure
+---
 
-```
-html_app/
-├── css/
-│   ├── tailwind.css   # Tailwind source file with custom utilities
-│   └── main.css       # Compiled CSS (generated)
-├── pages/             # HTML pages
-├── index.html         # Main entry point
-├── package.json       # Project dependencies and scripts
-└── tailwind.config.js # Tailwind CSS configuration
-```
+## 🚀 Fonctionnalités
 
-## 🎨 Styling
+| Page | Fonctionnalité | URL |
+|------|---------------|-----|
+| 🏠 **Accueil** | Diaporama des photos 23-26, présentation de l'association | `/` |
+| 📋 **Plaquette** | Liste des membres avec recherche et filtres | `/pages/services_tax_financial_solutions.html` |
+| 📰 **Actualités** | Événements et actualités de l'association | `/pages/blog_tax_insights_thought_leadership.html` |
+| 👤 **Profil** | Espace membre avec carte d'adhérent (80% de complétion) | `/pages/user_profile.html` |
+| 🔐 **Admin** | Gestion des membres et événements | `/pages/admin_login.html` |
 
-This project uses Tailwind CSS for styling. Custom utility classes include:
+---
 
-
-## 🧩 Customization
-
-To customize the Tailwind configuration, edit the `tailwind.config.js` file:
-
-
-## 📦 Build for Production
-
-Build the CSS for production:
-
-```bash
-npm run build:css
-# or
-yarn build:css
-```
-
-## 📱 Responsive Design
-
-The app is built with responsive design using Tailwind CSS breakpoints:
-
-- `sm`: 640px and up
-- `md`: 768px and up
-- `lg`: 1024px and up
-- `xl`: 1280px and up
-- `2xl`: 1536px and up
-
-## 🙏 Acknowledgments
-
-- Built with [Rocket.new](https://rocket.new)
-- Powered by HTML and Tailwind CSS
-
-Built with ❤️ on Rocket.new
+## 📁 Structure du projet
