@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Plaquette des Membres — Association SADONOU</title>
     <link rel="stylesheet" href="../css/main.css" />
+    <script src="js/supabase.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:wght@600;700;800&display=swap" rel="stylesheet" />
     <style>
@@ -529,116 +530,103 @@
 </footer>
 
 <script>
-    document.getElementById('mobile-btn').addEventListener('click', function() {
-        const menu = document.getElementById('mobile-menu');
-        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+// Mobile menu toggle
+document.getElementById('mobile-btn').addEventListener('click', function() {
+    const menu = document.getElementById('mobile-menu');
+    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+});
+
+// ============================================
+// GET MEMBERS FROM SUPABASE
+// ============================================
+async function getMembers() {
+    const members = await Supabase.getMembres() || [];
+    if (members.length === 0) {
+        // Ajouter des membres par défaut si la table est vide
+        const defaultMembers = [
+            { nom: 'AGOSSOU', prenom: 'Kofi', matricule: 'SAD-2025-001', ville: 'Cotonou', pays: 'Bénin', telephone: '+229 97 12 34 56', metier: 'Enseignant', statut: 'active' },
+            { nom: 'DOSSOU', prenom: 'Afi', matricule: 'SAD-2025-002', ville: 'Paris', pays: 'France', telephone: '+33 6 12 34 56 78', metier: 'Médecin', statut: 'active' },
+            { nom: 'HOUNSOU', prenom: 'Koffi', matricule: 'SAD-2025-003', ville: 'Abidjan', pays: 'Côte d\'Ivoire', telephone: '+225 07 12 34 56', metier: 'Ingénieur', statut: 'active' }
+        ];
+        
+        // Ajouter les membres par défaut à Supabase
+        for (const m of defaultMembers) {
+            await Supabase.ajouterMembre(m);
+        }
+        return defaultMembers;
+    }
+    return members;
+}
+
+let allMembers = [];
+let filteredMembers = [];
+
+// ============================================
+// RENDER TABLE
+// ============================================
+function renderTable() {
+    const tbody = document.getElementById('membersBody');
+    const count = document.getElementById('countDisplay');
+
+    count.textContent = filteredMembers.length;
+
+    if (filteredMembers.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="9" class="empty-state"><div class="icon">🔍</div><p>Aucun membre trouvé</p></td></tr>`;
+        return;
+    }
+
+    tbody.innerHTML = filteredMembers.map((m, i) => `
+        <tr>
+            <td style="color: #adb5bd; font-size: 0.8rem;">${i + 1}</td>
+            <td class="member-name">${m.nom || '--'}</td>
+            <td>${m.prenom || '--'}</td>
+            <td><span class="member-matricule">${m.matricule || '--'}</span></td>
+            <td>${m.ville || '--'}</td>
+            <td>${m.pays || '--'}</td>
+            <td>${m.telephone || '--'}</td>
+            <td>${m.metier || '--'}</td>
+            <td><span class="member-badge ${m.statut === 'active' ? 'badge-active' : 'badge-pending'}">${m.statut === 'active' ? '✓ Actif' : '⏳ En attente'}</span></td>
+        </tr>
+    `).join('');
+}
+
+// ============================================
+// FILTERS
+// ============================================
+function filterMembers() {
+    const search = document.getElementById('searchInput').value.toLowerCase();
+    const pays = document.getElementById('paysFilter').value;
+    const metier = document.getElementById('metierFilter').value;
+
+    filteredMembers = allMembers.filter(m => {
+        const matchSearch = !search ||
+            (m.nom || '').toLowerCase().includes(search) ||
+            (m.prenom || '').toLowerCase().includes(search) ||
+            (m.matricule || '').toLowerCase().includes(search) ||
+            (m.metier || '').toLowerCase().includes(search);
+        const matchPays = !pays || m.pays === pays;
+        const matchMetier = !metier || m.metier === metier;
+        return matchSearch && matchPays && matchMetier;
     });
-
-    // ============================================
-    // GET MEMBERS
-    // ============================================
-    function getMembers() {
-        const members = JSON.parse(localStorage.getItem('members')) || [];
-        // Si aucun membre, ajouter des membres par défaut
-        if (members.length === 0) {
-            const defaultMembers = [
-                { id: '1', nom: 'AGOSSOU', prenom: 'Kofi', matricule: 'SAD-2025-001', ville: 'Cotonou', pays: 'Bénin', telephone: '+229 97 12 34 56', metier: 'Enseignant', statut: 'active' },
-                { id: '2', nom: 'DOSSOU', prenom: 'Afi', matricule: 'SAD-2025-002', ville: 'Paris', pays: 'France', telephone: '+33 6 12 34 56 78', metier: 'Médecin', statut: 'active' },
-                { id: '3', nom: 'HOUNSOU', prenom: 'Koffi', matricule: 'SAD-2025-003', ville: 'Abidjan', pays: 'Côte d\'Ivoire', telephone: '+225 07 12 34 56', metier: 'Ingénieur', statut: 'active' }
-            ];
-            localStorage.setItem('members', JSON.stringify(defaultMembers));
-            return defaultMembers;
-        }
-        return members;
-    }
-
-    let allMembers = getMembers();
-    let filteredMembers = [...allMembers];
-
-    // ============================================
-    // RENDER TABLE
-    // ============================================
-    function renderTable() {
-        const tbody = document.getElementById('membersBody');
-        const count = document.getElementById('countDisplay');
-
-        count.textContent = filteredMembers.length;
-
-        if (filteredMembers.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="9" class="empty-state"><div class="icon">🔍</div><p>Aucun membre trouvé</p></td></tr>`;
-            return;
-        }
-
-        tbody.innerHTML = filteredMembers.map((m, i) => `
-            <tr>
-                <td style="color: #adb5bd; font-size: 0.8rem;">${i + 1}</td>
-                <td class="member-name">${m.nom || '--'}</td>
-                <td>${m.prenom || '--'}</td>
-                <td><span class="member-matricule">${m.matricule || '--'}</span></td>
-                <td>${m.ville || '--'}</td>
-                <td>${m.pays || '--'}</td>
-                <td>${m.telephone || '--'}</td>
-                <td>${m.metier || '--'}</td>
-                <td><span class="member-badge ${m.statut === 'active' ? 'badge-active' : 'badge-pending'}">${m.statut === 'active' ? '✓ Actif' : '⏳ En attente'}</span></td>
-            </tr>
-        `).join('');
-    }
-
-    // ============================================
-    // FILTERS
-    // ============================================
-    function filterMembers() {
-        const search = document.getElementById('searchInput').value.toLowerCase();
-        const pays = document.getElementById('paysFilter').value;
-        const metier = document.getElementById('metierFilter').value;
-
-        filteredMembers = allMembers.filter(m => {
-            const matchSearch = !search ||
-                (m.nom || '').toLowerCase().includes(search) ||
-                (m.prenom || '').toLowerCase().includes(search) ||
-                (m.matricule || '').toLowerCase().includes(search) ||
-                (m.metier || '').toLowerCase().includes(search);
-            const matchPays = !pays || m.pays === pays;
-            const matchMetier = !metier || m.metier === metier;
-            return matchSearch && matchPays && matchMetier;
-        });
-        renderTable();
-    }
-
-    // ============================================
-    // EXPORT PDF
-    // ============================================
-    function exportPDF() {
-        window.print();
-    }
-
-    // ============================================
-    // SYNC WITH ADMIN
-    // ============================================
-    // Cette fonction est appelée par le dashboard admin
-    // lorsqu'un membre est ajouté/modifié/supprimé
-    function syncMembers() {
-        allMembers = getMembers();
-        filteredMembers = [...allMembers];
-        renderTable();
-    }
-
-    // ============================================
-    // INIT
-    // ============================================
     renderTable();
+}
 
-    // ============================================
-    // LISTEN FOR CHANGES
-    // ============================================
-    // Surveiller les changements dans localStorage
-    const originalSetItem = localStorage.setItem;
-    localStorage.setItem = function(key, value) {
-        originalSetItem.call(this, key, value);
-        if (key === 'members') {
-            syncMembers();
-        }
-    };
+// ============================================
+// EXPORT PDF
+// ============================================
+function exportPDF() {
+    window.print();
+}
+
+// ============================================
+// INIT
+// ============================================
+async function init() {
+    allMembers = await getMembers();
+    filteredMembers = [...allMembers];
+    renderTable();
+}
+
+init();
 </script>
-</body>
 </html>
