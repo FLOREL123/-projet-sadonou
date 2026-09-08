@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="js/supabase.js"></script>
     <title>Mon Profil - Association SADONOU</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -1100,27 +1101,48 @@
         }
     }
 
-    // ============================================
-    // SAVE PROFILE
-    // ============================================
-    function saveProfile(e) {
-        e.preventDefault();
+   // ============================================
+// SAVE PROFILE (avec Supabase)
+// ============================================
+async function saveProfile(e) {
+    e.preventDefault();
 
-        const profile = {
-            firstName: document.getElementById('firstName').value,
-            lastName: document.getElementById('lastName').value,
-            sexe: document.getElementById('sexe').value,
-            birthDate: document.getElementById('birthDate').value,
-            nationality: document.getElementById('nationality').value,
-            matricule: document.getElementById('matricule').value,
-            phone: document.getElementById('phone').value,
-            city: document.getElementById('city').value,
-            country: document.getElementById('country').value,
-            photo: photoDataURL || ''
-        };
+    const profile = {
+        firstName: document.getElementById('firstName').value,
+        lastName: document.getElementById('lastName').value,
+        sexe: document.getElementById('sexe').value,
+        birthDate: document.getElementById('birthDate').value,
+        nationality: document.getElementById('nationality').value,
+        matricule: document.getElementById('matricule').value,
+        phone: document.getElementById('phone').value,
+        city: document.getElementById('city').value,
+        country: document.getElementById('country').value,
+        photo: photoDataURL || ''
+    };
 
-        localStorage.setItem('userProfile_' + currentUser.id, JSON.stringify(profile));
+    // Sauvegarder dans localStorage (compatibilité)
+    localStorage.setItem('userProfile_' + currentUser.id, JSON.stringify(profile));
 
+    // Synchroniser avec Supabase
+    const membre = {
+        nom: profile.lastName,
+        prenom: profile.firstName,
+        email: document.getElementById('email').value,
+        telephone: profile.phone,
+        ville: profile.city,
+        pays: profile.country,
+        matricule: profile.matricule,
+        sexe: profile.sexe,
+        date_naissance: profile.birthDate,
+        nationalite: profile.nationality,
+        photo: profile.photo || ''
+    };
+
+    const result = await Supabase.syncMembre(membre);
+    
+    if (result && !result.error) {
+        alert('✅ Profil mis à jour avec succès !');
+        // Mettre à jour aussi dans la liste des membres localStorage
         const members = JSON.parse(localStorage.getItem('members')) || [];
         const memberIndex = members.findIndex(m => m.id === currentUser.id);
         const memberData = {
@@ -1141,121 +1163,11 @@
             members.push(memberData);
         }
         localStorage.setItem('members', JSON.stringify(members));
-
-        loadProfile();
-        toggleForm();
-        alert('✅ Profil mis à jour avec succès !');
+    } else {
+        alert('⚠️ Profil sauvegardé localement mais non synchronisé avec le serveur.');
     }
 
-    // ============================================
-    // DOWNLOAD CARD PDF (Téléchargement direct)
-    // ============================================
-    function downloadMemberCardPDF() {
-        const firstName = document.getElementById('firstName').value || 'NOM';
-        const lastName = document.getElementById('lastName').value || 'PRENOM';
-        const matricule = document.getElementById('matricule').value || 'SADNOW-XXXX';
-        const birthDate = document.getElementById('birthDate').value || '';
-        const nationality = document.getElementById('nationality').value || '--';
-        const photo = photoDataURL || '';
-
-        let age = '--';
-        if (birthDate) {
-            const today = new Date();
-            const birth = new Date(birthDate);
-            age = today.getFullYear() - birth.getFullYear();
-            const monthDiff = today.getMonth() - birth.getMonth();
-            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
-                age--;
-            }
-        }
-
-        const photoHtml = photo ? 
-            `<div class="photo"><img src="${photo}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;" /></div>` :
-            `<div class="photo">👤</div>`;
-
-        const html = `
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <meta charset="UTF-8">
-                <title>Carte de Membre SADONOU</title>
-                <style>
-                    * { margin: 0; padding: 0; box-sizing: border-box; }
-                    body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
-                    .card {
-                        max-width: 600px;
-                        margin: 0 auto;
-                        aspect-ratio: 16/9;
-                        background: linear-gradient(135deg, #2d6a4f 0%, #52b788 100%);
-                        border-radius: 12px;
-                        padding: 30px;
-                        color: white;
-                        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: space-between;
-                    }
-                    .header { text-align: center; border-bottom: 2px solid rgba(255,255,255,0.3); padding-bottom: 15px; }
-                    .header h1 { font-size: 28px; letter-spacing: 2px; margin-bottom: 3px; }
-                    .header p { font-size: 11px; opacity: 0.9; }
-                    .content { display: flex; gap: 25px; align-items: center; flex: 1; padding: 15px 0; }
-                    .photo { width: 100px; height: 100px; background: rgba(255,255,255,0.2); border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; overflow: hidden; }
-                    .info { flex: 1; font-size: 15px; line-height: 1.7; }
-                    .info p { margin: 6px 0; }
-                    .label { font-weight: bold; opacity: 0.9; }
-                    .footer { text-align: center; border-top: 2px solid rgba(255,255,255,0.3); padding-top: 12px; font-size: 10px; opacity: 0.8; }
-                    @media print { body { padding: 0; background: none; } .card { box-shadow: none; } }
-                </style>
-            </head>
-            <body>
-                <div class="card">
-                    <div class="header">
-                        <h1>SADONOU</h1>
-                        <p>Association Alladaxónou Houègbonou</p>
-                    </div>
-                    <div class="content">
-                        ${photoHtml}
-                        <div class="info">
-                            <p><span class="label">Nom & Prénoms:</span> ${lastName} ${firstName}</p>
-                            <p><span class="label">Matricule:</span> ${matricule}</p>
-                            <p><span class="label">Âge:</span> ${age} ans</p>
-                            <p><span class="label">Nationalité:</span> ${nationality}</p>
-                        </div>
-                    </div>
-                    <div class="footer">Carte valide - Association SADONOU</div>
-                </div>
-            </body>
-            </html>
-        `;
-
-        // Télécharger en PDF via l'impression
-        const win = window.open('', '_blank');
-        if (win) {
-            win.document.write(html);
-            win.document.close();
-            setTimeout(() => {
-                win.focus();
-                win.print();
-            }, 500);
-        } else {
-            alert('Veuillez autoriser les popups pour télécharger la carte.');
-        }
-    }
-
-    // ============================================
-    // LOGOUT
-    // ============================================
-    function logout() {
-        if (confirm('Êtes-vous sûr de vouloir vous déconnecter ?')) {
-            localStorage.removeItem('currentUser');
-            window.location.href = 'homepage_professional_tax_services.html';
-        }
-    }
-
-    // ============================================
-    // INIT
-    // ============================================
     loadProfile();
-</script>
-</body>
+    toggleForm();
+}
 </html>
