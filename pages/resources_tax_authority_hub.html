@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tax Resources & Authority Hub | TaxFlow Pro - Expert Guides & Tools</title>
+    <meta name="description" content="Access comprehensive tax guides, interactive calculators, and expert resources. Your trusted authority for tax planning, business deductions, and financial strategies." />
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+  <script type="module" async src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Faccounting8105back.builtwithrocket.new&_be=https%3A%2F%2Fappanalytics.rocket.new&_v=0.1.20"></script>
+  <script type="module" defer src="https://static.rocket.new/rocket-shot.js?v=0.0.2"></script>
+  </head>
+<body class="bg-background">
+    <!-- Navigation Header -->
+    <nav class="bg-white shadow-subtle sticky top-0 z-50">
+        <div class="container-max">
+            <div class="flex items-center justify-between py-4">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <svg class="w-10 h-10 text-primary" viewBox="0 0 40 40" fill="currentColor">
+                        <path d="M20 2L37 12v16L20 38L3 28V12L20 2z"/>
+                        <path d="M20 8L30 14v12L20 32L10 26V14L20 8z" fill="#d69e2e"/>
+                        <text x="20" y="24" text-anchor="middle" class="text-xs font-bold fill-white">T</text>
+                    </svg>
+                    <span class="text-2xl font-playfair font-bold text-primary">TaxFlow Pro</span>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="homepage_professional_tax_services.html" class="text-secondary-600 hover:text-primary transition-smooth">Accueil</a>
+                    <a href="services_tax_financial_solutions.html" class="text-secondary-600 hover:text-primary transition-smooth">Plaquette</a>
+                    <a href="blog_tax_insights_thought_leadership.html" class="text-secondary-600 hover:text-primary transition-smooth">Actualités</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden p-2" id="mobile-menu-btn">
+                    <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div class="md:hidden hidden" id="mobile-menu">
+                <div class="py-4 space-y-4 border-t border-gray-200">
+                    <a href="homepage_professional_tax_services.html" class="block text-secondary-600">Accueil</a>
+                    <a href="services_tax_financial_solutions.html" class="block text-secondary-600">Plaquette</a>
+                    <a href="blog_tax_insights_thought_leadership.html" class="block text-secondary-600">Actualités</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- pages/resources_tax_authority_hub.html -->
+    <!-- Hero Section - Update main headline text color for better visibility -->
+    <section class="bg-primary text-white relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-primary-800 to-primary-900"></div>
+        <div class="absolute inset-0 opacity-10">
+            <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <polygon points="0,0 100,0 80,100 0,100" fill="url(#heroPattern)"/>
+                <defs>
+                    <pattern id="heroPattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                        <circle cx="10" cy="10" r="1" fill="white" opacity="0.3"/>
+                    </pattern>
+                </defs>
+            </svg>
+        </div>
+        
+        <div class="container-max relative z-10 section-padding">
+            <div class="text-center max-w-4xl mx-auto">
+                <!-- Authority Badge -->
+                <div class="inline-flex items-center bg-accent bg-opacity-20 rounded-full px-6 py-3 backdrop-blur-sm mb-8">
+                    <svg class="w-6 h-6 text-accent mr-3" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <span class="text-accent font-semibold text-lg">Your Trusted Tax Authority</span>
+                </div>
+
+                <!-- Main Headline - Changed from text-primary to text-white for better visibility -->
+                <h1 class="text-5xl lg:text-6xl font-playfair font-bold leading-tight mb-6 text-white">
+                    Expert <span class="text-accent">tax resources</span> at your fingertips
+                </h1>
+                
+                <p class="text-xl text-gray-200 leading-relaxed mb-8 max-w-3xl mx-auto">
+                    Comprehensive guides, interactive calculators, and expert insights to navigate your tax journey with confidence. From seasonal essentials to year-round planning.
+                </p>
+
+                <!-- Search Bar -->
+                <div class="max-w-2xl mx-auto mb-8">
+                    <div class="relative">
+                        <input type="text" placeholder="Search tax guides, calculators, and resources..." class="w-full px-6 py-4 pr-14 rounded-xl text-primary bg-white shadow-medium focus:outline-none focus:ring-2 focus:ring-accent" />
+                        <button class="absolute right-4 top-1/2 transform -translate-y-1/2 text-primary hover:text-accent transition-smooth">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quick Access Stats -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div class="text-center">
+                        <div class="text-3xl font-playfair font-bold text-accent mb-2">50+</div>
+                        <div class="text-gray-300">Expert Guides</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-playfair font-bold text-accent mb-2">12</div>
+                        <div class="text-gray-300">Tax Calculators</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-playfair font-bold text-accent mb-2">Weekly</div>
+                        <div class="text-gray-300">Updates</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-playfair font-bold text-accent mb-2">Free</div>
+                        <div class="text-gray-300">Access</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resource Categories -->
+    <section class="section-padding bg-surface">
+        <div class="container-max">
+            <div class="grid md:grid-cols-4 gap-6">
+                <!-- Tax Season Essentials -->
+                <div class="card group hover:border-accent transition-all duration-300 cursor-pointer" onclick="scrollToSection('tax-season')">
+                    <div class="w-16 h-16 bg-accent bg-opacity-10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-accent group-hover:bg-opacity-20 transition-all duration-300">
+                        <svg class="w-8 h-8 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-playfair font-semibold text-primary mb-3">Tax Season Essentials</h3>
+                    <p class="text-secondary-600 mb-4">Critical resources for tax filing season, deadlines, and preparation checklists.</p>
+                    <div class="text-accent font-semibold">15 Resources →</div>
+                </div>
+
+                <!-- Year-Round Planning -->
+                <div class="card group hover:border-accent transition-all duration-300 cursor-pointer" onclick="scrollToSection('year-round')">
+                    <div class="w-16 h-16 bg-accent bg-opacity-10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-accent group-hover:bg-opacity-20 transition-all duration-300">
+                        <svg class="w-8 h-8 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-playfair font-semibold text-primary mb-3">Year-Round Planning</h3>
+                    <p class="text-secondary-600 mb-4">Strategic tax planning guides for ongoing financial optimization.</p>
+                    <div class="text-accent font-semibold">12 Resources →</div>
+                </div>
+
+                <!-- Business Resources -->
+                <div class="card group hover:border-accent transition-all duration-300 cursor-pointer" onclick="scrollToSection('business')">
+                    <div class="w-16 h-16 bg-accent bg-opacity-10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-accent group-hover:bg-opacity-20 transition-all duration-300">
+                        <svg class="w-8 h-8 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-playfair font-semibold text-primary mb-3">Business Resources</h3>
+                    <p class="text-secondary-600 mb-4">Comprehensive guides for business owners and entrepreneurs.</p>
+                    <div class="text-accent font-semibold">18 Resources →</div>
+                </div>
+
+                <!-- Regulatory Updates -->
+                <div class="card group hover:border-accent transition-all duration-300 cursor-pointer" onclick="scrollToSection('updates')">
+                    <div class="w-16 h-16 bg-accent bg-opacity-10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-accent group-hover:bg-opacity-20 transition-all duration-300">
+                        <svg class="w-8 h-8 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-playfair font-semibold text-primary mb-3">Regulatory Updates</h3>
+                    <p class="text-secondary-600 mb-4">Latest tax law changes and regulatory compliance information.</p>
+                    <div class="text-accent font-semibold">8 Resources →</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Tax Calculators -->
+    <section class="section-padding bg-white">
+        <div class="container-max">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-playfair font-bold text-primary mb-4">Interactive Tax Calculators</h2>
+                <p class="text-lg text-secondary-600 max-w-2xl mx-auto">Get instant estimates and plan your tax strategy with our professional-grade calculators</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Tax Refund Calculator -->
+                <div class="card group hover:border-accent transition-all duration-300">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="w-12 h-12 bg-accent bg-opacity-10 rounded-lg flex items-center justify-center">
+                            <svg class="w-6 h-6 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4zM18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z"/>
+                            </svg>
+                        </div>
+                        <span class="text-sm bg-accent bg-opacity-10 text-accent px-3 py-1 rounded-full font-medium">Most Popular</span>
+                    </div>
+                    <h3 class="text-xl font-playfair font-semibold text-primary mb-3">Tax Refund Calculator</h3>
+                    <p class="text-secondary-600 mb-6">Estimate your potential tax refund based on income, deductions, and withholdings.</p>
+                    
+                    <!-- Quick Calculator Form -->
+                    <div class="space-y-4 mb-6">
+                        <div>
+                            <label class="block text-sm font-medium text-secondary-700 mb-2">Annual Income (₹)</label>
+                            <input type="number" placeholder="500,000" class="form-input text-sm" id="income-input" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-secondary-700 mb-2">Tax Paid (₹)</label>
+                            <input type="number" placeholder="50,000" class="form-input text-sm" id="tax-paid-input" />
+                        </div>
+                        <button class="btn-secondary w-full" onclick="calculateRefund()">Calculate Refund</button>
+                        <div id="refund-result" class="text-center p-4 bg-surface rounded-lg hidden">
+                            <div class="text-2xl font-playfair font-bold text-accent mb-2">₹<span id="refund-amount">0</span></div>
+                            <div class="text-sm text-secondary-600">Estimated Refund</div>
+                        </div>
+                    </div>
+                    
+                    <a href="contact_multi_touch_engagement.html" class="text-accent font-semibold hover:text-accent-700 transition-smooth">
+                        Get Professional Review →
+                    </a>
+                </div>
+
+                <!-- Business Expense Calculator -->
+                <div class="card group hover:border-accent transition-all duration-300">
+                    <div class="w-12 h-12 bg-accent bg-opacity-10 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-playfair font-semibold text-primary mb-3">Business Expense Tracker</h3>
+                    <p class="text-secondary-600 mb-6">Track deductible business expenses and estimate tax savings throughout the year.</p>
+                    
+                    <div class="space-y-4 mb-6">
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-medium text-secondary-700 mb-1">Office Supplies</label>
+                                <input type="number" placeholder="5,000" class="form-input text-sm" />
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-secondary-700 mb-1">Travel</label>
+                                <input type="number" placeholder="15,000" class="form-input text-sm" />
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-secondary-700 mb-1">Equipment</label>
+                                <input type="number" placeholder="25,000" class="form-input text-sm" />
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-secondary-700 mb-1">Marketing</label>
+                                <input type="number" placeholder="10,000" class="form-input text-sm" />
+                            </div>
+                        </div>
+                        <button class="btn-secondary w-full">Calculate Savings</button>
+                    </div>
+                    
+                    <a href="contact_multi_touch_engagement.html" class="text-accent font-semibold hover:text-accent-700 transition-smooth">
+                        Business Tax Consultation →
+                    </a>
+                </div>
+
+                <!-- Investment Tax Calculator -->
+                <div class="card group hover:border-accent transition-all duration-300">
+                    <div class="w-12 h-12 bg-accent bg-opacity-10 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-playfair font-semibold text-primary mb-3">Investment Tax Planner</h3>
+                    <p class="text-secondary-600 mb-6">Calculate capital gains tax and optimize your investment strategy for tax efficiency.</p>
+                    
+                    <div class="space-y-4 mb-6">
+                        <div>
+                            <label class="block text-sm font-medium text-secondary-700 mb-2">Investment Type</label>
+                            <select class="form-input text-sm">
+                                <option>Equity Shares</option>
+                                <option>Mutual Funds</option>
+                                <option>Real Estate</option>
+                                <option>Bonds</option>
+                            </select>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-medium text-secondary-700 mb-1">Purchase Price</label>
+                                <input type="number" placeholder="100,000" class="form-input text-sm" />
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-secondary-700 mb-1">Sale Price</label>
+                                <input type="number" placeholder="150,000" class="form-input text-sm" />
+                            </div>
+                        </div>
+                        <button class="btn-secondary w-full">Calculate Tax</button>
+                    </div>
+                    
+                    <a href="contact_multi_touch_engagement.html" class="text-accent font-semibold hover:text-accent-700 transition-smooth">
+                        Investment Planning →
+                    </a>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <a href="contact_multi_touch_engagement.html" class="btn-primary">View All Calculators</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tax Season Essentials -->
+    <section id="tax-season" class="section-padding bg-surface">
+        <div class="container-max">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-playfair font-bold text-primary mb-4">Tax Season Essentials</h2>
+                <p class="text-lg text-secondary-600 max-w-2xl mx-auto">Everything you need for a smooth and successful tax filing season</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Essential Guide 1 -->
+                <div class="card group hover:border-accent transition-all duration-300">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-accent bg-opacity-10 rounded-lg flex items-center justify-center mr-4">
+                            <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-playfair font-semibold text-primary">Tax Filing Checklist 2025</h3>
+                            <p class="text-sm text-secondary-600">Complete preparation guide</p>
+                        </div>
+                    </div>
+                    <p class="text-secondary-600 mb-4">Comprehensive checklist covering all documents, forms, and deadlines for individual tax filing.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-accent font-medium">PDF Download</span>
+                        <button class="text-accent hover:text-accent-700 transition-smooth">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Essential Guide 2 -->
+                <div class="card group hover:border-accent transition-all duration-300">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-accent bg-opacity-10 rounded-lg flex items-center justify-center mr-4">
+                            <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-playfair font-semibold text-primary">Important Tax Deadlines</h3>
+                            <p class="text-sm text-secondary-600">Never miss a deadline</p>
+                        </div>
+                    </div>
+                    <p class="text-secondary-600 mb-4">Complete calendar of tax deadlines, extension dates, and quarterly payment schedules.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-accent font-medium">Interactive Calendar</span>
+                        <button class="text-accent hover:text-accent-700 transition-smooth">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Essential Guide 3 -->
+                <div class="card group hover:border-accent transition-all duration-300">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-accent bg-opacity-10 rounded-lg flex items-center justify-center mr-4">
+                            <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4zM18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-playfair font-semibold text-primary">Deduction Maximizer Guide</h3>
+                            <p class="text-sm text-secondary-600">Maximize your savings</p>
+                        </div>
+                    </div>
+                    <p class="text-secondary-600 mb-4">Comprehensive guide to all available deductions and how to claim them effectively.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-accent font-medium">Expert Guide</span>
+                        <button class="text-accent hover:text-accent-700 transition-smooth">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Essential Guide 4 -->
+                <div class="card group hover:border-accent transition-all duration-300">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-accent bg-opacity-10 rounded-lg flex items-center justify-center mr-4">
+                            <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-playfair font-semibold text-primary">Common Tax Mistakes</h3>
+                            <p class="text-sm text-secondary-600">Avoid costly errors</p>
+                        </div>
+                    </div>
+                    <p class="text-secondary-600 mb-4">Learn about the most common tax filing mistakes and how to avoid them.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-accent font-medium">Prevention Guide</span>
+                        <button class="text-accent hover:text-accent-700 transition-smooth">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Essential Guide 5 -->
+                <div class="card group hover:border-accent transition-all duration-300">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-accent bg-opacity-10 rounded-lg flex items-center justify-center mr-4">
+                            <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-playfair font-semibold text-primary">Document Security Guide</h3>
+                            <p class="text-sm text-secondary-600">Protect your information</p>
+                        </div>
+                    </div>
+                    <p class="text-secondary-600 mb-4">Best practices for securing your tax documents and personal financial information.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-accent font-medium">Security Tips</span>
+                        <button class="text-accent hover:text-accent-700 transition-smooth">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Essential Guide 6 -->
+                <div class="card group hover:border-accent transition-all duration-300">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-accent bg-opacity-10 rounded-lg flex items-center justify-center mr-4">
+                            <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-playfair font-semibold text-primary">Emergency Tax Help</h3>
+                            <p class="text-sm text-secondary-600">Last-minute assistance</p>
+                        </div>
+                    </div>
+                    <p class="text-secondary-600 mb-4">Quick solutions for last-minute tax issues and emergency filing situations.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-accent font-medium">Urgent Support</span>
+                        <a href="contact_multi_touch_engagement.html" class="text-accent hover:text-accent-700 transition-smooth">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lead Magnet CTA -->
+    <section class="section-padding bg-primary text-white">
+        <div class="container-max">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-4xl font-playfair font-bold mb-6">Get Your Free Tax Planning Toolkit</h2>
+                <p class="text-xl text-gray-200 mb-8">Download our comprehensive tax planning checklist, deduction tracker, and deadline calendar - absolutely free.</p>
+                
+                <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-2xl p-8 max-w-2xl mx-auto">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <input type="text" placeholder="Your Name" class="form-input bg-white bg-opacity-20 border-white border-opacity-30 text-white placeholder-gray-300" />
+                        </div>
+                        <div>
+                            <input type="email" placeholder="Your Email" class="form-input bg-white bg-opacity-20 border-white border-opacity-30 text-white placeholder-gray-300" />
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <select class="form-input bg-white bg-opacity-20 border-white border-opacity-30 text-white">
+                            <option value>I'm interested in...</option>
+                            <option value="individual">Individual Tax Planning</option>
+                            <option value="business">Business Tax Strategy</option>
+                            <option value="investment">Investment Tax Planning</option>
+                            <option value="retirement">Retirement Planning</option>
+                        </select>
+                    </div>
+                    <button class="btn-secondary w-full mt-6">Download Free Toolkit</button>
+                    <p class="text-sm text-gray-300 mt-4">No spam, ever. Unsubscribe anytime.</p>
+                </div>
+
+                <div class="grid grid-cols-3 gap-8 mt-12">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-accent bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold mb-2">Tax Planning Checklist</h3>
+                        <p class="text-sm text-gray-300">Complete year-round planning guide</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-accent bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4zM18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold mb-2">Deduction Tracker</h3>
+                        <p class="text-sm text-gray-300">Never miss a deduction again</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-accent bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold mb-2">Deadline Calendar</h3>
+                        <p class="text-sm text-gray-300">Stay on top of important dates</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-primary text-white">
+        <div class="container-max section-padding">
+            <div class="grid md:grid-cols-4 gap-8">
+                <!-- Company Info -->
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-3">
+                        <svg class="w-8 h-8 text-accent" viewBox="0 0 40 40" fill="currentColor">
+                            <path d="M20 2L37 12v16L20 38L3 28V12L20 2z"/>
+                            <path d="M20 8L30 14v12L20 32L10 26V14L20 8z" fill="#d69e2e"/>
+                            <text x="20" y="24" text-anchor="middle" class="text-xs font-bold fill-white">T</text>
+                        </svg>
+                        <span class="text-xl font-playfair font-bold">TaxFlow Pro</span>
+                    </div>
+                    <p class="text-gray-300">Your trusted partner for professional tax services and financial planning.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-300 hover:text-accent transition-smooth">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M20 10c0-5.523-4.477-10-10-10S0 4.477 0 10c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V10h2.54V7.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V10h2.773l-.443 2.89h-2.33v6.988C16.343 19.128 20 14.991 20 10z" clip-rule="evenodd"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-accent transition-smooth">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.073 4.073 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-accent transition-smooth">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.338 16.338H13.67V12.16c0-.995-.017-2.277-1.387-2.277-1.39 0-1.601 1.086-1.601 2.207v4.248H8.014v-8.59h2.559v1.174h.037c.356-.675 1.227-1.387 2.526-1.387 2.703 0 3.203 1.778 3.203 4.092v4.711zM5.005 6.575a1.548 1.548 0 11-.003-3.096 1.548 1.548 0 01.003 3.096zm-1.337 9.763H6.34v-8.59H3.667v8.59zM17.668 1H2.328C1.595 1 1 1.581 1 2.298v15.403C1 18.418 1.595 19 2.328 19h15.34c.734 0 1.332-.582 1.332-1.299V2.298C19 1.581 18.402 1 17.668 1z" clip-rule="evenodd"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="homepage_professional_tax_services.html" class="text-gray-300 hover:text-accent transition-smooth">Home</a></li>
+                        <li><a href="services_tax_financial_solutions.html" class="text-gray-300 hover:text-accent transition-smooth">Services</a></li>
+                        <li><a href="about_expertise_trust_foundation.html" class="text-gray-300 hover:text-accent transition-smooth">About</a></li>
+                        <li><a href="contact_multi_touch_engagement.html" class="text-gray-300 hover:text-accent transition-smooth">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Services -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Services</h4>
+                    <ul class="space-y-2">
+                        <li><a href="services_tax_financial_solutions.html" class="text-gray-300 hover:text-accent transition-smooth">Tax Preparation</a></li>
+                        <li><a href="services_tax_financial_solutions.html" class="text-gray-300 hover:text-accent transition-smooth">Business Consulting</a></li>
+                        <li><a href="services_tax_financial_solutions.html" class="text-gray-300 hover:text-accent transition-smooth">Financial Planning</a></li>
+                        <li><a href="services_tax_financial_solutions.html" class="text-gray-300 hover:text-accent transition-smooth">Audit Support</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact Info</h4>
+                    <div class="space-y-3">
+                        <div class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+                            </svg>
+                            <span class="text-gray-300">+91 98765 43210</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                            </svg>
+                            <span class="text-gray-300">info@taxflowpro.com</span>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <svg class="w-5 h-5 text-accent mt-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                            </svg>
+                            <span class="text-gray-300">123 Business District, Mumbai, Maharashtra 400001</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-primary-700 mt-12 pt-8 text-center">
+                <p class="text-gray-300">© 2025 TaxFlow Pro. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile Menu Toggle
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Smooth scrolling to sections
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        // Tax Refund Calculator
+        function calculateRefund() {
+            const income = parseFloat(document.getElementById('income-input').value) || 0;
+            const taxPaid = parseFloat(document.getElementById('tax-paid-input').value) || 0;
+            
+            // Simple tax calculation (this would be more complex in reality)
+            let taxOwed = 0;
+            if (income <= 250000) {
+                taxOwed = 0;
+            } else if (income <= 500000) {
+                taxOwed = (income - 250000) * 0.05;
+            } else if (income <= 1000000) {
+                taxOwed = 12500 + (income - 500000) * 0.20;
+            } else {
+                taxOwed = 112500 + (income - 1000000) * 0.30;
+            }
+            
+            const refund = Math.max(0, taxPaid - taxOwed);
+            
+            document.getElementById('refund-amount').textContent = refund.toLocaleString();
+            document.getElementById('refund-result').classList.remove('hidden');
+        }
+
+        // Search functionality
+        document.querySelector('input[placeholder*="Search"]').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const searchTerm = this.value.toLowerCase();
+                // In a real application, this would filter content
+                alert('Searching for: ' + searchTerm);
+            }
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-slide-up');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards for animation
+        document.querySelectorAll('.card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Form validation for lead magnet
+        document.querySelector('.btn-secondary').addEventListener('click', function(e) {
+            const name = document.querySelector('input[placeholder="Your Name"]').value;
+            const email = document.querySelector('input[placeholder="Your Email"]').value;
+            const interest = document.querySelector('select').value;
+            
+            if (!name || !email || !interest) {
+                e.preventDefault();
+                alert('Please fill in all fields to download your free toolkit.');
+                return;
+            }
+            
+            if (!email.includes('@')) {
+                e.preventDefault();
+                alert('Please enter a valid email address.');
+                return;
+            }
+            
+            // In a real application, this would submit to a server
+            alert('Thank you! Your tax planning toolkit will be sent to your email shortly.');
+        });
+    </script>
+<script id="dhws-dataInjector" src="../public/dhws-data-injector.js"></script>
+</body>
+</html>
