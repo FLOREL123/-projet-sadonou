@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard - Association SADONOU</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:wght@600;700;800&display=swap" rel="stylesheet" />
+    <script src="../js/api.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        h1, h2, h3, h4 { font-family: 'Fraunces', serif; }
+        :root {
+            --vert: #2d6a4f;
+            --vert-light: #52b788;
+            --bleu: #1d3557;
+            --bleu-light: #457b9d;
+            --jaune: #f4a261;
+            --orange: #e76f51;
+            --gris: #f8f9fa;
+            --gris-border: #e9ecef;
+        }
+        body { background: var(--gris); }
+
+        .admin-container { display: flex; min-height: 100vh; }
+
+        .admin-sidebar {
+            background: var(--bleu);
+            width: 260px;
+            padding: 2rem 1.5rem;
+            color: white;
+            position: fixed;
+            left: 0; top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        .admin-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--jaune);
+            font-family: 'Fraunces', serif;
+        }
+        .admin-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .admin-nav button {
+            background: transparent;
+            border: none;
+            color: rgba(255,255,255,0.8);
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: left;
+            font-weight: 500;
+            font-size: 0.95rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .admin-nav button:hover,
+        .admin-nav button.active {
+            background: rgba(255,255,255,0.15);
+            color: white;
+        }
+        .admin-nav button.active {
+            background: var(--vert);
+            color: var(--jaune);
+        }
+
+        .admin-content {
+            margin-left: 260px;
+            flex: 1;
+            padding: 2rem;
+        }
+        .admin-header {
+            background: white;
+            padding: 1.5rem 2rem;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .admin-header h1 {
+            margin: 0;
+            color: var(--bleu);
+            font-size: 1.8rem;
+        }
+        .btn-logout {
+            background: var(--orange);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .admin-section { display: none; }
+        .admin-section.active { display: block; }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-left: 4px solid var(--vert);
+        }
+        .stat-card.blue { border-left-color: var(--bleu); }
+        .stat-card.orange { border-left-color: var(--orange); }
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--bleu);
+            margin: 0.5rem 0;
+        }
+        .stat-label {
+            font-size: 0.9rem;
+            color: #6c757d;
+            font-weight: 500;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .table-header h3 {
+            margin: 0;
+            color: var(--bleu);
+        }
+        .btn-add {
+            background: var(--vert);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .btn-add:hover { background: var(--vert-light); }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table th {
+            background: var(--gris);
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--bleu);
+            border-bottom: 2px solid var(--gris-border);
+            font-size: 0.85rem;
+        }
+        table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--gris-border);
+            font-size: 0.9rem;
+        }
+        table tr:hover { background: var(--gris); }
+
+        .btn-delete {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            background: #dc3545;
+            color: white;
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            display: none;
+        }
+        .form-container.show { display: block; }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--bleu);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--gris-border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            box-sizing: border-box;
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        @media (max-width: 600px) {
+            .form-row { grid-template-columns: 1fr; }
+        }
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .btn-submit {
+            background: var(--vert);
+            color: white;
+            padding: 10px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .btn-cancel {
+            background: #6c757d;
+            color: white;
+            padding: 10px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .message {
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+        .message.success { background: #d4edda; color: #155724; display: block; }
+        .message.error { background: #f8d7da; color: #721c24; display: block; }
+
+        @media (max-width: 768px) {
+            .admin-sidebar { width: 100%; height: auto; position: relative; }
+            .admin-content { margin-left: 0; padding: 1rem; }
+            .admin-header { flex-direction: column; gap: 1rem; }
+            .table-container { overflow-x: auto; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="admin-container">
+    <div class="admin-sidebar">
+        <div class="admin-logo">Administration</div>
+        <div class="admin-nav">
+            <button class="nav-btn active" data-section="dashboard">Tableau de bord</button>
+            <button class="nav-btn" data-section="profiles">Membres</button>
+            <button class="nav-btn" data-section="events">Événements</button>
+        </div>
+    </div>
+
+    <div class="admin-content">
+        <div class="admin-header">
+            <h1>Tableau de bord administrateur</h1>
+            <div>
+                <span style="color: #6c757d; margin-right: 1rem;" id="adminName">Admin</span>
+                <button class="btn-logout" onclick="logout()">Déconnexion</button>
+            </div>
+        </div>
+
+        <div class="admin-section active" id="dashboard">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Membres inscrits</div>
+                    <div class="stat-number" id="statProfiles">0</div>
+                </div>
+                <div class="stat-card blue">
+                    <div class="stat-label">Événements publiés</div>
+                    <div class="stat-number" id="statEvents">0</div>
+                </div>
+                <div class="stat-card orange">
+                    <div class="stat-label">Rôle</div>
+                    <div class="stat-number" id="statRole" style="font-size: 1.2rem;">--</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin-section" id="profiles">
+            <div class="table-container">
+                <div class="table-header">
+                    <h3>Gestion des membres</h3>
+                </div>
+                <div id="memberMessage" class="message"></div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Email</th>
+                            <th>Matricule</th>
+                            <th>Ville</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="membersTable">
+                        <tr><td colspan="8" style="text-align:center; padding:2rem;">Chargement...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="admin-section" id="events">
+            <div class="table-container">
+                <div class="table-header">
+                    <h3>Gestion des événements</h3>
+                    <button class="btn-add" onclick="toggleEventForm()">+ Ajouter un événement</button>
+                </div>
+                <div id="eventMessage" class="message"></div>
+
+                <div class="form-container" id="eventForm">
+                    <h3>Nouvel événement</h3>
+                    <form onsubmit="saveEvent(event)">
+                        <div class="form-group">
+                            <label>Titre *</label>
+                            <input type="text" id="eventTitle" required />
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Date *</label>
+                                <input type="date" id="eventDate" required />
+                            </div>
+                            <div class="form-group">
+                                <label>Lieu *</label>
+                                <input type="text" id="eventLocation" required />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Description *</label>
+                            <textarea id="eventDescription" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>URL de l'image</label>
+                            <input type="text" id="eventImage" placeholder="https://..." />
+                        </div>
+                        <div class="form-group">
+                            <label>Catégorie</label>
+                            <select id="eventTag">
+                                <option value="Assemblée générale">Assemblée générale</option>
+                                <option value="Éducation">Éducation</option>
+                                <option value="Diaspora">Diaspora</option>
+                                <option value="Culture">Culture</option>
+                                <option value="Solidarité">Solidarité</option>
+                                <option value="Autre">Autre</option>
+                            </select>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn-submit">Enregistrer</button>
+                            <button type="button" class="btn-cancel" onclick="toggleEventForm()">Annuler</button>
+                        </div>
+                    </form>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Titre</th>
+                            <th>Date</th>
+                            <th>Lieu</th>
+                            <th>Catégorie</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="eventsTable">
+                        <tr><td colspan="5" style="text-align:center; padding:2rem;">Chargement...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Vérifier l'authentification et le rôle admin
+function checkAdmin() {
+    const user = API.Auth.getUser();
+    if (!user) {
+        window.location.href = 'admin_login.html';
+        return null;
+    }
+    if (!API.Auth.isAdmin() && !API.Auth.isSuperAdmin() && !API.Auth.isModerator()) {
+        alert('Accès refusé. Vous devez être administrateur.');
+        window.location.href = 'homepage_professional_tax_services.html';
+        return null;
+    }
+    return user;
+}
+
+const admin = checkAdmin();
+if (admin) {
+    document.getElementById('adminName').textContent = admin.profile?.prenom || admin.email;
+    document.getElementById('statRole').textContent = (admin.roles || ['member']).join(', ');
+}
+
+// Navigation
+document.querySelectorAll('.nav-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const section = this.dataset.section;
+        document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(section).classList.add('active');
+        this.classList.add('active');
+
+        if (section === 'profiles') loadMembers();
+        if (section === 'events') loadEvents();
+        if (section === 'dashboard') loadDashboard();
+    });
+});
+
+async function loadDashboard() {
+    const membersResult = await API.Membres.list();
+    const eventsResult = await API.Evenements.list();
+    
+    document.getElementById('statProfiles').textContent = (membersResult.membres || []).length;
+    document.getElementById('statEvents').textContent = (eventsResult.evenements || []).length;
+}
+
+async function loadMembers() {
+    const tbody = document.getElementById('membersTable');
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding:2rem;">Chargement...</td></tr>';
+    
+    const result = await API.Membres.list();
+    const members = result.membres || [];
+
+    if (members.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding:2rem;">Aucun membre</td></tr>';
+        return;
+    }
+
+    tbody.innerHTML = members.map((m, i) => `
+        <tr>
+            <td>${i + 1}</td>
+            <td><strong>${m.nom || '--'}</strong></td>
+            <td>${m.prenom || '--'}</td>
+            <td>${m.email || '--'}</td>
+            <td>${m.matricule || '--'}</td>
+            <td>${m.ville || '--'}</td>
+            <td>${m.statut || 'pending'}</td>
+            <td>
+                <button class="btn-delete" onclick="deleteMember('${m.id}')">Supprimer</button>
+            </td>
+        </tr>
+    `).join('');
+}
+
+async function deleteMember(id) {
+    if (!confirm('Supprimer ce membre ?')) return;
+    
+    const result = await API.Membres.delete(id);
+    if (result.error) {
+        alert('Erreur : ' + result.error);
+        return;
+    }
+    loadMembers();
+    loadDashboard();
+}
+
+async function loadEvents() {
+    const tbody = document.getElementById('eventsTable');
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:2rem;">Chargement...</td></tr>';
+    
+    const result = await API.Evenements.list();
+    const events = result.evenements || [];
+
+    if (events.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:2rem;">Aucun événement</td></tr>';
+        return;
+    }
+
+    tbody.innerHTML = events.map(e => `
+        <tr>
+            <td><strong>${e.titre}</strong></td>
+            <td>${e.date}</td>
+            <td>${e.lieu}</td>
+            <td>${e.categorie || '--'}</td>
+            <td>
+                <button class="btn-delete" onclick="deleteEvent('${e.id}')">Supprimer</button>
+            </td>
+        </tr>
+    `).join('');
+}
+
+function toggleEventForm() {
+    const form = document.getElementById('eventForm');
+    form.classList.toggle('show');
+    if (!form.classList.contains('show')) {
+        document.getElementById('eventTitle').value = '';
+        document.getElementById('eventDate').value = '';
+        document.getElementById('eventLocation').value = '';
+        document.getElementById('eventDescription').value = '';
+        document.getElementById('eventImage').value = '';
+        document.getElementById('eventTag').value = 'Assemblée générale';
+    }
+}
+
+async function saveEvent(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type="submit"]');
+    btn.textContent = 'Enregistrement...';
+    btn.disabled = true;
+
+    const eventData = {
+        titre: document.getElementById('eventTitle').value.trim(),
+        date: document.getElementById('eventDate').value,
+        lieu: document.getElementById('eventLocation').value.trim(),
+        description: document.getElementById('eventDescription').value.trim(),
+        image_url: document.getElementById('eventImage').value.trim() || null,
+        categorie: document.getElementById('eventTag').value
+    };
+
+    const result = await API.Evenements.create(eventData);
+
+    btn.textContent = 'Enregistrer';
+    btn.disabled = false;
+
+    if (result.error) {
+        alert('Erreur : ' + result.error);
+        return;
+    }
+
+    alert('Événement créé ! Un email de notification a été envoyé aux membres.');
+    loadEvents();
+    loadDashboard();
+    toggleEventForm();
+}
+
+async function deleteEvent(id) {
+    if (!confirm('Supprimer cet événement ?')) return;
+    
+    const result = await API.Evenements.delete(id);
+    if (result.error) {
+        alert('Erreur : ' + result.error);
+        return;
+    }
+    loadEvents();
+    loadDashboard();
+}
+
+function logout() {
+    if (confirm('Se déconnecter ?')) {
+        API.Auth.logout();
+    }
+}
+
+// Init
+loadDashboard();
+</script>
+</body>
+</html>
