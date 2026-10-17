@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Administration - Association SADONOU</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:wght@600;700;800&display=swap" rel="stylesheet" />
+    <script src="../js/api.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        h1, h2, h3, h4 { font-family: 'Fraunces', serif; }
+        
+        :root {
+            --vert: #2d6a4f;
+            --vert-light: #52b788;
+            --bleu: #1d3557;
+            --jaune: #f4a261;
+            --orange: #e76f51;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, var(--bleu) 0%, var(--vert) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 3rem;
+            max-width: 420px;
+            width: 100%;
+            margin: 1rem;
+        }
+
+        .login-logo {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .login-logo img {
+            height: 80px;
+            width: 80px;
+            object-fit: contain;
+            border-radius: 50%;
+            border: 3px solid var(--jaune);
+            padding: 3px;
+            background: white;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-header h1 {
+            font-size: 1.6rem;
+            color: var(--bleu);
+            margin: 0 0 0.5rem 0;
+        }
+
+        .login-header p {
+            color: #6c757d;
+            font-size: 0.95rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--bleu);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: border-color 0.3s;
+            box-sizing: border-box;
+            text-align: center;
+            letter-spacing: 4px;
+            font-weight: 700;
+            text-transform: lowercase;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--bleu);
+            box-shadow: 0 0 0 3px rgba(29, 53, 87, 0.1);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 16px 24px;
+            background: linear-gradient(135deg, var(--bleu), var(--vert));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(29, 53, 87, 0.3);
+        }
+
+        .btn-login:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-back {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .btn-back a {
+            color: #6c757d;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .btn-back a:hover {
+            color: var(--bleu);
+        }
+
+        .message {
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        .message.error {
+            background: #fee;
+            color: #c33;
+            border: 1px solid #fcc;
+        }
+
+        .message.success {
+            background: #efe;
+            color: var(--vert);
+            border: 1px solid #cfc;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-logo">
+            <img src="../static/images/logo.jpg" alt="Logo Association SADONOU" />
+        </div>
+
+        <div class="login-header">
+            <h1>Administration</h1>
+            <p>Accès sécurisé par mot de passe</p>
+        </div>
+
+        <div id="messageBox" class="message"></div>
+
+        <form id="loginForm" autocomplete="off">
+            <div class="form-group">
+                <label for="adminCode">Code d'accès administrateur</label>
+                <input 
+                    type="password" 
+                    id="adminCode" 
+                    placeholder="••••" 
+                    required 
+                    autocomplete="off" 
+                    autofocus
+                />
+            </div>
+
+            <button type="submit" class="btn-login" id="submitBtn">Se connecter</button>
+        </form>
+
+        <div class="btn-back">
+            <a href="homepage_professional_tax_services.html">← Retour à l'accueil</a>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // CONFIGURATION
+        // ============================================
+        // C'est le mot de passe magique pour entrer
+        const ADMIN_PASSWORD = 'bleu';
+        
+        // On utilise l'ID et l'email de votre compte Super Admin
+        const ADMIN_EMAIL = 'qwxsdc@gmail.com';
+        // Le mot de passe réel de votre compte Supabase
+        // (Si vous voulez que l'accès soit encore plus simple, vous pouvez
+        //  mettre un mot de passe bidon ici et changer la logique, mais
+        //  l'API Supabase exigera quand même le vrai pour créer la session)
+        const ADMIN_REAL_PASSWORD = '012345689'; 
+
+        // ============================================
+        // AFFICHER UN MESSAGE
+        // ============================================
+        function showMessage(text, type) {
+            const box = document.getElementById('messageBox');
+            box.textContent = text;
+            box.className = 'message ' + type;
+            box.style.display = 'block';
+        }
+
+        // ============================================
+        // VÉRIFIER SI DÉJÀ CONNECTÉ
+        // ============================================
+        (function checkExistingSession() {
+            const user = API.Auth.getUser();
+            if (user && (API.Auth.isAdmin() || API.Auth.isSuperAdmin() || API.Auth.isModerator())) {
+                window.location.href = 'admin_dashboard.html';
+            }
+        })();
+
+        // ============================================
+        // SOUMISSION DU FORMULAIRE
+        // ============================================
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const code = document.getElementById('adminCode').value.trim().toLowerCase();
+            const submitBtn = document.getElementById('submitBtn');
+
+            document.getElementById('messageBox').style.display = 'none';
+
+            if (!code) {
+                showMessage('Veuillez entrer le code.', 'error');
+                return;
+            }
+
+            submitBtn.textContent = 'Vérification...';
+            submitBtn.disabled = true;
+
+            try {
+                // 1. On vérifie si c'est le bon code ('bleu')
+                if (code !== ADMIN_PASSWORD) {
+                    showMessage('Code incorrect.', 'error');
+                    submitBtn.textContent = 'Se connecter';
+                    submitBtn.disabled = false;
+                    return;
+                }
+
+                // 2. Si le code est bon, on connecte automatiquement le super admin
+                // On utilise les vraies infos du compte pour que Supabase nous donne un jeton
+                showMessage('Code correct, connexion au serveur...', 'success');
+                
+                // ⚠️ IMPORTANT : Remplacez 'VOTRE_MOT_DE_PASSE_SUPABASE' ci-dessus
+                // par le vrai mot de passe de votre compte atchedjigwladys@gmail.com
+                const result = await API.Auth.login(ADMIN_EMAIL, ADMIN_REAL_PASSWORD);
+
+                if (result.error) {
+                    // Si le mot de passe réel dans le code est faux, on aura une erreur ici
+                    console.error(result.error);
+                    showMessage('Erreur de connexion serveur (vérifiez le code source).', 'error');
+                    submitBtn.textContent = 'Se connecter';
+                    submitBtn.disabled = false;
+                    return;
+                }
+
+                showMessage('Connexion réussie. Redirection...', 'success');
+
+                setTimeout(() => {
+                    window.location.href = 'admin_dashboard.html';
+                }, 800);
+
+            } catch (error) {
+                console.error(error);
+                showMessage('Erreur de connexion.', 'error');
+                submitBtn.textContent = 'Se connecter';
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
