@@ -41,6 +41,41 @@ function clearStoredSession() {
     localStorage.removeItem('sadonou_user');
 }
 
+// ✅ NOUVEAU : Rafraîchir le token automatiquement
+async function refreshSession() {
+    const session = getStoredSession();
+    if (!session || !session.refresh_token) return false;
+
+    try {
+        const response = await fetch(`${API_CONFIG.SUPABASE_URL}/auth/v1/token?grant_type=refresh_token`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'apikey': API_CONFIG.ANON_KEY
+            },
+            body: JSON.stringify({ refresh_token: session.refresh_token })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // On met à jour la session avec le nouveau token
+            const newSession = {
+                access_token: data.access_token,
+                refresh_token: data.refresh_token,
+                expires_at: Math.floor(Date.now() / 1000) + data.expires_in
+            };
+            
+            const user = getStoredUser();
+            saveStoredSession(newSession, user);
+            return true;
+        }
+    } catch (e) {
+        console.error("Erreur de rafraîchissement de session:", e);
+    }
+    return false;
+}
+
 // ============================================
 // APPEL API GÉNÉRIQUE
 // ============================================
@@ -54,7 +89,14 @@ async function apiCall(endpoint, method = 'GET', body = null, requireAuth = fals
     };
 
     if (requireAuth) {
-        const session = getStoredSession();
+        let session = getStoredSession();
+        
+        // ✅ Si le token a expiré, on le rafraîchit AVANT de faire l'appel
+        if (session && session.expires_at && Date.now() / 1000 > session.expires_at) {
+            await refreshSession();
+            session = getStoredSession(); // On recharge la session
+        }
+
         if (session && session.access_token) {
             headers['Authorization'] = `Bearer ${session.access_token}`;
         }
@@ -120,15 +162,32 @@ const Auth = {
         const result = await apiCall('auth-login', 'POST', payload);
 
         if (!result.error && result.session) {
-            saveStoredSession(result.session, result.user);
+            // On s'assure que expires_at est bien sauvegardé
+            const sessionToSave = {
+                access_token: result.session.access_token,
+                refresh_token: result.session.refresh_token,
+                expires_at: result.session.expires_at || (Math.floor(Date.now() / 1000) + 3600) // Fallback 1h
+            };
+            saveStoredSession(sessionToSave, result.user);
         }
 
         return result;
     },
 
-    // ============================================
-    // MOT DE PASSE OUBLIÉ (QUESTION SECRÈTE)
-    // ============================================
+    // ✅ NOUVEAU : À appeler au chargement de la page pour vérifier la session
+    async initialize() {
+        const session = getStoredSession();
+        if (session) {
+            // Si la session est expirée au chargement, on la rafraîchit
+            if (session.expires_at && Date.now() / 1000 > session.expires_at) {
+                const refreshed = await refreshSession();
+                if (!refreshed) {
+                    clearStoredSession(); // Si le refresh échoue, on nettoie
+                }
+            }
+        }
+    },
+
     async resetPassword(email, favoriteColor, newPassword) {
         return await apiCall('auth-reset-password', 'POST', {
             email: email,
@@ -151,7 +210,9 @@ const Auth = {
     },
 
     isLoggedIn() {
-        return getStoredUser() !== null;
+        const session = getStoredSession();
+        const user = getStoredUser();
+        return user !== null && session !== null;
     },
 
     isAdmin() {
@@ -255,4 +316,4 @@ window.API = {
     config: API_CONFIG
 };
 
-console.log('✅ Module API SADONOU chargé (Question secrète activée)');
+console.log('✅ Module API SADONOU chargé (avec maintien de session automatique)');
